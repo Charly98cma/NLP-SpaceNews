@@ -1,7 +1,7 @@
 # NLP-SpaceNews
 ## Introduction
 
-NLP project of the subject *Intelligent Systems*, part of the *Master Universitario en Ingeniería Informática*, that uses the [Space News data set](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset), which contains more than 17.00 articles related to the space industry covering news, commercial, civil, launches, military, and also opinion articles, to find the keywords of each article.
+NLP project of the subject *Intelligent Systems*, part of the *Master Universitario en Ingeniería Informática*, that uses the [Space News data set](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset), which contains more than 17.000 articles related to the space industry covering news, commercial, civil, launches, military, and also opinion articles, to find the keywords of each article.
 
 This articles are not classified based on their topic and do not give a small list of keywords to the reader, so we try to solve that on this project.
 

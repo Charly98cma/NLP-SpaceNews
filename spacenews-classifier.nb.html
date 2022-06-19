@@ -1788,10 +1788,6 @@ space industry covering news, commercial, civil, launches, military, and
 also opinion articles.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgYmFzaFxuIyBVbnppcHBpbmcgdGhlIGRhdGEgc2V0XG51bnppcCAtbiBhcmNoaXZlLnppcFxuYGBgIn0= -->
-<pre class="bash"><code># Unzipping the data set
-unzip -n archive.zip</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1801,9 +1797,29 @@ unzip -n archive.zip</code></pre>
 installed my hand, with <code>install.packages</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoic3BhQ3kgaXMgYWxyZWFkeSBpbml0aWFsaXplZFxuTlVMTFxuIn0= -->
-<pre><code>spaCy is already initialized
-NULL</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBOTFBcblJlZ2lzdGVyZWQgUzMgbWV0aG9kIG92ZXJ3cml0dGVuIGJ5ICdkYXRhLnRhYmxlJzpcbiAgbWV0aG9kICAgICAgICAgICBmcm9tXG4gIHByaW50LmRhdGEudGFibGUgICAgIFxuRm91bmQgJ3NwYWN5X2NvbmRhZW52Jy4gc3BhY3lyIHdpbGwgdXNlIHRoaXMgZW52aXJvbm1lbnRcbnN1Y2Nlc3NmdWxseSBpbml0aWFsaXplZCAoc3BhQ3kgVmVyc2lvbjogMy4xLjMsIGxhbmd1YWdlIG1vZGVsOiBlbl9jb3JlX3dlYl9zbSlcbihweXRob24gb3B0aW9uczogdHlwZSA9IFwiY29uZGFlbnZcIiwgdmFsdWUgPSBcInNwYWN5X2NvbmRhZW52XCIpXG5QYWNrYWdlIHZlcnNpb246IDMuMi4xXG5Vbmljb2RlIHZlcnNpb246IDE0LjBcbklDVSB2ZXJzaW9uOiA3MS4xXG5QYXJhbGxlbCBjb21wdXRpbmc6IDQgb2YgNCB0aHJlYWRzIHVzZWQuXG5TZWUgaHR0cHM6Ly9xdWFudGVkYS5pbyBmb3IgdHV0b3JpYWxzIGFuZCBleGFtcGxlcy5cblxuQXR0YWNoaW5nIHBhY2thZ2U6IOKAmHF1YW50ZWRh4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6dG3igJk6XG5cbiAgICBzdG9wd29yZHNcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOk5MUOKAmTpcblxuICAgIG1ldGEsIG1ldGE8LVxuIn0= -->
+<pre><code>Loading required package: NLP
+Registered S3 method overwritten by &#39;data.table&#39;:
+  method           from
+  print.data.table     
+Found &#39;spacy_condaenv&#39;. spacyr will use this environment
+successfully initialized (spaCy Version: 3.1.3, language model: en_core_web_sm)
+(python options: type = &quot;condaenv&quot;, value = &quot;spacy_condaenv&quot;)
+Package version: 3.2.1
+Unicode version: 14.0
+ICU version: 71.1
+Parallel computing: 4 of 4 threads used.
+See https://quanteda.io for tutorials and examples.
+
+Attaching package: ‘quanteda’
+
+The following object is masked from ‘package:tm’:
+
+    stopwords
+
+The following objects are masked from ‘package:NLP’:
+
+    meta, meta&lt;-</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1813,221 +1829,113 @@ NULL</code></pre>
 <p>The first thing to do, of course, is read the data:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBSZWFkIGFuZCBzZXQgQ1dEXG5zZXR3ZChkaXJuYW1lKHJzdHVkaW9hcGk6OmdldEFjdGl2ZURvY3VtZW50Q29udGV4dCgpJHBhdGgpKVxub2dfZGF0YSA8LSByZWFkLmNzdihcXHNwYWNlbmV3cy5jc3ZcXCwgaGVhZGVyID0gVFJVRSwgc2VwID0gJywnKVxuYGBgXG5gYGAifQ== -->
-<pre class="r"><code>```r
-# Read and set CWD
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGFuZCBzZXQgQ1dEXG5zZXR3ZChkaXJuYW1lKHJzdHVkaW9hcGk6OmdldEFjdGl2ZURvY3VtZW50Q29udGV4dCgpJHBhdGgpKVxub2dfZGF0YSA8LSByZWFkLmNzdihcInNwYWNlbmV3cy5jc3ZcIiwgaGVhZGVyID0gVFJVRSwgc2VwID0gJywnKVxuYGBgIn0= -->
+<pre class="r"><code># Read and set CWD
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-og_data &lt;- read.csv(\spacenews.csv\, header = TRUE, sep = &#39;,&#39;)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-The data set is composed of 6 columns (`title`, `url`, `content`, `author`, `date`, `postexcerpt`), but we do not need all of them, so we get rid of the `url`, `author` and `date`, keeping only the columns `title`, `content` and `postexcerpt`. The `postexcerpt` is a small description of the article, like an abstract.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGF0YSA8LSBzdWJzZXQob2dfZGF0YSwgc2VsZWN0ID0gYyh0aXRsZSwgY29udGVudCwgcG9zdGV4Y2VycHQpKVxucm0ob2dfZGF0YSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-data &lt;- subset(og_data, select = c(title, content, postexcerpt))
+og_data &lt;- read.csv(&quot;spacenews.csv&quot;, header = TRUE, sep = &#39;,&#39;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The data set is composed of 6 columns (<code>title</code>,
+<code>url</code>, <code>content</code>, <code>author</code>,
+<code>date</code>, <code>postexcerpt</code>), but we do not need all of
+them, so we get rid of the <code>url</code>, <code>author</code> and
+<code>date</code>, keeping only the columns <code>title</code>,
+<code>content</code> and <code>postexcerpt</code>. The
+<code>postexcerpt</code> is a small description of the article, like an
+abstract.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YSA8LSBzdWJzZXQob2dfZGF0YSwgc2VsZWN0ID0gYyh0aXRsZSwgY29udGVudCwgcG9zdGV4Y2VycHQpKVxucm0ob2dfZGF0YSlcbmBgYCJ9 -->
+<pre class="r"><code>data &lt;- subset(og_data, select = c(title, content, postexcerpt))
 rm(og_data)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-Now that we do have the data set we are going to use, we must check there are no bad or missing values.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2hpY2goaXMubmEoZGF0YSkpICMgRXhwZWVjdGVkOiBpbnRlZ2VyKDApXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-which(is.na(data)) # Expeected: integer(0)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiaW50ZWdlcigwKVxuIn0= --&gt;
-</code></pre>
-<p>integer(0)</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-With no missing data, we also check the text encoding and normalization of each article:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBFbmNvZGluZ1xuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSR0aXRsZSldKSAjIEV4cGVjdGVkOiAwXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-# Encoding
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now that we do have the data set we are going to use, we must check
+there are no bad or missing values.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2hpY2goaXMubmEoZGF0YSkpICMgRXhwZWVjdGVkOiBpbnRlZ2VyKDApXG5gYGAifQ== -->
+<pre class="r"><code>which(is.na(data)) # Expeected: integer(0)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiaW50ZWdlcigwKVxuIn0= -->
+<pre><code>integer(0)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>With no missing data, we also check the text encoding and
+normalization of each article:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBFbmNvZGluZ1xuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSR0aXRsZSldKSAjIEV4cGVjdGVkOiAwXG5gYGAifQ== -->
+<pre class="r"><code># Encoding
 sum(data[!utf8_valid(data$title)]) # Expected: 0</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
-</code></pre>
-<p>[1] 0</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRjb250ZW50KV0pICMgRXhwZWN0ZWQ6IDBcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-sum(data[!utf8_valid(data$content)]) # Expected: 0</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
-</code></pre>
-<p>[1] 0</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRwb3N0ZXhjZXJwdCldKSAjIEV4cGVjdGVkOiAwXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-sum(data[!utf8_valid(data$postexcerpt)]) # Expected: 0</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
-</code></pre>
-<p>[1] 0</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBOb3JtYWxpemF0aW9uXG50aXRsZV9ORkMgPC0gdXRmOF9ub3JtYWxpemUoZGF0YSR0aXRsZSlcbnN1bSh0aXRsZV9ORkMgIT0gZGF0YSR0aXRsZSkgIyBFeHBlY3RlZDogMFxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-# Normalization
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRjb250ZW50KV0pICMgRXhwZWN0ZWQ6IDBcbmBgYCJ9 -->
+<pre class="r"><code>sum(data[!utf8_valid(data$content)]) # Expected: 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRwb3N0ZXhjZXJwdCldKSAjIEV4cGVjdGVkOiAwXG5gYGAifQ== -->
+<pre class="r"><code>sum(data[!utf8_valid(data$postexcerpt)]) # Expected: 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3JtYWxpemF0aW9uXG50aXRsZV9ORkMgPC0gdXRmOF9ub3JtYWxpemUoZGF0YSR0aXRsZSlcbnN1bSh0aXRsZV9ORkMgIT0gZGF0YSR0aXRsZSkgIyBFeHBlY3RlZDogMFxuYGBgIn0= -->
+<pre class="r"><code># Normalization
 title_NFC &lt;- utf8_normalize(data$title)
 sum(title_NFC != data$title) # Expected: 0</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
-</code></pre>
-<p>[1] 0</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGVzY3JfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShkZXNjcl9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-descr_NFC &lt;- utf8_normalize(data$content)
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVzY3JfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShkZXNjcl9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgIn0= -->
+<pre class="r"><code>descr_NFC &lt;- utf8_normalize(data$content)
 sum(descr_NFC != data$description) # EXpected: 0</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
-</code></pre>
-<p>[1] 0</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucG9zdGVfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShwb3N0ZV9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-poste_NFC &lt;- utf8_normalize(data$content)
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucG9zdGVfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShwb3N0ZV9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgIn0= -->
+<pre class="r"><code>poste_NFC &lt;- utf8_normalize(data$content)
 sum(poste_NFC != data$description) # EXpected: 0</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
-</code></pre>
-<p>[1] 0</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBEZWxldGUgZGF0YSB0byByZWxlYXNlIG1lbW9yeVxucm0odGl0bGVfTkZDKVxucm0oZGVzY3JfTkZDKVxucm0ocG9zdGVfTkZDKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-# Delete data to release memory
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEZWxldGUgZGF0YSB0byByZWxlYXNlIG1lbW9yeVxucm0odGl0bGVfTkZDKVxucm0oZGVzY3JfTkZDKVxucm0ocG9zdGVfTkZDKVxuYGBgIn0= -->
+<pre class="r"><code># Delete data to release memory
 rm(title_NFC)
 rm(descr_NFC)
 rm(poste_NFC)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-Now that we know the text is properly encoded and normalized, we create a single string for each article that includes `title`, `content` and `postexcerpt`, and then strip the extra white spaces, tabs, etc.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBTaW5nbGUgbGluZSBwZXIgYXJ0aWNsZVxudGV4dCA8LSBwYXN0ZShkYXRhJHRpdGxlLCBkYXRhJGNvbnRlbnQsIGRhdGEkcG9zdGV4Y2VycHQsIHNlcCA9IFxcIFxcKVxuXG4jIFJlbW92ZSBleHRyYSBzcGFjZXMsIHB1bmN0dWF0aW9uIHN5bWJvbHMsIGV0Yy5cbnRleHRfY2xuIDwtIGdzdWIoXFxbXmEtekEtWjAtOV1cXCwgXFwgXFwsIHRleHQpXG50ZXh0X2NsbiA8LSBnc3ViKFxcWyBdezJcbmBgYCJ9 --&gt;
-
-```r
-```r
-# Single line per article
-text &lt;- paste(data$title, data$content, data$postexcerpt, sep = \ \)
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now that we know the text is properly encoded and normalized, we
+create a single string for each article that includes
+<code>title</code>, <code>content</code> and <code>postexcerpt</code>,
+and then strip the extra white spaces, tabs, etc.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBTaW5nbGUgbGluZSBwZXIgYXJ0aWNsZVxudGV4dCA8LSBwYXN0ZShkYXRhJHRpdGxlLCBkYXRhJGNvbnRlbnQsIGRhdGEkcG9zdGV4Y2VycHQsIHNlcCA9IFwiIFwiKVxuXG4jIFJlbW92ZSBleHRyYSBzcGFjZXMsIHB1bmN0dWF0aW9uIHN5bWJvbHMsIGV0Yy5cbnRleHRfY2xuIDwtIGdzdWIoXCJbXmEtekEtWjAtOV1cIiwgXCIgXCIsIHRleHQpXG50ZXh0X2NsbiA8LSBnc3ViKFwiWyBdezIsfVwiLCBcIiBcIiwgdGV4dF9jbG4pXG50ZXh0X2NsbiA8LSBnc3ViKFwiKFxcXFxkfFxcXFxXKStcIiwgXCIgXCIsIHRleHRfY2xuKVxuXG4jIEFsbCBsb3dlciBjYXNlXG50ZXh0X2NsbiA8LSB0b2xvd2VyKHRleHRfY2xuKVxuXG5ybSh0ZXh0KVxuYGBgIn0= -->
+<pre class="r"><code># Single line per article
+text &lt;- paste(data$title, data$content, data$postexcerpt, sep = &quot; &quot;)
 
 # Remove extra spaces, punctuation symbols, etc.
-text_cln &lt;- gsub(\[^a-zA-Z0-9]\, \ \, text)
-text_cln &lt;- gsub(\[ ]{2</code></pre>
+text_cln &lt;- gsub(&quot;[^a-zA-Z0-9]&quot;, &quot; &quot;, text)
+text_cln &lt;- gsub(&quot;[ ]{2,}&quot;, &quot; &quot;, text_cln)
+text_cln &lt;- gsub(&quot;(\\d|\\W)+&quot;, &quot; &quot;, text_cln)
+
+# All lower case
+text_cln &lt;- tolower(text_cln)
+
+rm(text)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2039,200 +1947,137 @@ analyse the text to get this words, that might be essential to classify
 each article.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBOYW1lIHRoZSByb3dzIHRvIGRpZmZlcmVudGlhdGUgdGhlbVxubmFtZXModGV4dF9jbG4pIDwtIHBhc3RlKFxcQXJ0LlxcLCAxOmxlbmd0aCh0ZXh0X2NsbikpXG5cbiMgQ3JlYXRlIGNvcnB1c1xudGV4dF9jbG5fY29ycHVzIDwtIGNvcnB1cyh0ZXh0X2NsbilcblxuIyBDcmVhdGUgZG9jdmFyXG5kb2N2YXJzKHRleHRfY2xuX2NvcnB1cywgZmllbGQgPSBcXEFydGljbGVcXCkgPC0gMTpsZW5ndGgodGV4dF9jbG4pXG5cbiMgRXhhbXBsZSBvZiB0aGUgY29ycHVzXG50ZXh0X2Nsbl9jb3JwdXNcbmBgYFxuYGBgIn0= -->
-<pre class="r"><code>```r
-# Name the rows to differentiate them
-names(text_cln) &lt;- paste(\Art.\, 1:length(text_cln))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOYW1lIHRoZSByb3dzIHRvIGRpZmZlcmVudGlhdGUgdGhlbVxubmFtZXModGV4dF9jbG4pIDwtIHBhc3RlKFwiQXJ0LlwiLCAxOmxlbmd0aCh0ZXh0X2NsbikpXG5cbiMgQ3JlYXRlIGNvcnB1c1xudGV4dF9jbG5fY29ycHVzIDwtIGNvcnB1cyh0ZXh0X2NsbilcblxuIyBDcmVhdGUgZG9jdmFyXG5kb2N2YXJzKHRleHRfY2xuX2NvcnB1cywgZmllbGQgPSBcIkFydGljbGVcIikgPC0gMTpsZW5ndGgodGV4dF9jbG4pXG5cbiMgRXhhbXBsZSBvZiB0aGUgY29ycHVzXG50ZXh0X2Nsbl9jb3JwdXNcbmBgYCJ9 -->
+<pre class="r"><code># Name the rows to differentiate them
+names(text_cln) &lt;- paste(&quot;Art.&quot;, 1:length(text_cln))
 
 # Create corpus
 text_cln_corpus &lt;- corpus(text_cln)
 
 # Create docvar
-docvars(text_cln_corpus, field = \Article\) &lt;- 1:length(text_cln)
+docvars(text_cln_corpus, field = &quot;Article&quot;) &lt;- 1:length(text_cln)
 
 # Example of the corpus
 text_cln_corpus</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQ29ycHVzIGNvbnNpc3Rpbmcgb2YgMTcsNDc0IGRvY3VtZW50cyBhbmQgMSBkb2N2YXIuXG5BcnQuIDEgOlxuXCJhc3Ryb2Nhc3QgYnV5aW5nIGhpYmVyIHRvIGJvb3N0IGZ1bmRpbmcgYW5kIGV4cGFuc2lvbiBwbGFucyAuLi5cIlxuXG5BcnQuIDIgOlxuXCJzaWVycmEgc3BhY2UgdG8gcGFydG5lciB3aXRoIHNwaXJpdCBhZXJvc3lzdGVtcyBvbiBkcmVhbSBjaGEuLi5cIlxuXG5BcnQuIDMgOlxuXCJyb2NrZXQgdG8gbGF1bmNoIGNoaW5hIHMgbmV4dCBzcGFjZSBzdGF0aW9uIG1vZHVsZSBhcnJpdmVzIGEuLi5cIlxuXG5BcnQuIDQgOlxuXCJhZ2FpbnN0IHF1YWQgY2hpbmEgbGF1bmNoZXMgc2F0ZWxsaXRlIGJhc2VkIGVhcnRoIG9ic2VydmF0aW8uLi5cIlxuXG5BcnQuIDUgOlxuXCJob3VzZSBjb21taXR0ZWUgcXVlc3Rpb25zIHByb3Bvc2VkIGRlbGF5IGluIG5hc2EgYXN0ZXJvaWQgbWkuLi5cIlxuXG5BcnQuIDYgOlxuXCJpbmdlbnVpdHkgaHVua2VyaW5nIGRvd24gZHVyaW5nIG1hcnRpYW4gZHVzdCBzdG9ybXMgYW5kIHdpbnQuLi5cIlxuXG5bIHJlYWNoZWQgbWF4X25kb2MgLi4uIDE3LDQ2OCBtb3JlIGRvY3VtZW50cyBdXG4ifQ== -->
+<pre><code>Corpus consisting of 17,474 documents and 1 docvar.
+Art. 1 :
+&quot;astrocast buying hiber to boost funding and expansion plans ...&quot;
 
-&lt;!-- rnb-output-begin eyJkYXRhIjoiQ29ycHVzIGNvbnNpc3Rpbmcgb2YgMTcsNDc0IGRvY3VtZW50cyBhbmQgMSBkb2N2YXIuXG5BcnQuIDEgOlxuXFxhc3Ryb2Nhc3QgYnV5aW5nIGhpYmVyIHRvIGJvb3N0IGZ1bmRpbmcgYW5kIGV4cGFuc2lvbiBwbGFucyAuLi5cXFxuXG5BcnQuIDIgOlxuXFxzaWVycmEgc3BhY2UgdG8gcGFydG5lciB3aXRoIHNwaXJpdCBhZXJvc3lzdGVtcyBvbiBkcmVhbSBjaGEuLi5cXFxuXG5BcnQuIDMgOlxuXFxyb2NrZXQgdG8gbGF1bmNoIGNoaW5hIHMgbmV4dCBzcGFjZSBzdGF0aW9uIG1vZHVsZSBhcnJpdmVzIGEuLi5cXFxuXG5BcnQuIDQgOlxuXFxhZ2FpbnN0IHF1YWQgY2hpbmEgbGF1bmNoZXMgc2F0ZWxsaXRlIGJhc2VkIGVhcnRoIG9ic2VydmF0aW8uLi5cXFxuXG5BcnQuIDUgOlxuXFxob3VzZSBjb21taXR0ZWUgcXVlc3Rpb25zIHByb3Bvc2VkIGRlbGF5IGluIG5hc2EgYXN0ZXJvaWQgbWkuLi5cXFxuXG5BcnQuIDYgOlxuXFxpbmdlbnVpdHkgaHVua2VyaW5nIGRvd24gZHVyaW5nIG1hcnRpYW4gZHVzdCBzdG9ybXMgYW5kIHdpbnQuLi5cXFxuXG5bIHJlYWNoZWQgbWF4X25kb2MgLi4uIDE3LDQ2OCBtb3JlIGRvY3VtZW50cyBdXG4ifQ== --&gt;
-</code></pre>
-<p>Corpus consisting of 17,474 documents and 1 docvar. Art. 1 : buying
-hiber to boost funding and expansion plans …<br />
-</p>
-<p>Art. 2 : space to partner with spirit aerosystems on dream cha…<br />
-</p>
-<p>Art. 3 : to launch china s next space station module arrives a…<br />
-</p>
-<p>Art. 4 : quad china launches satellite based earth observatio…<br />
-</p>
-<p>Art. 5 : committee questions proposed delay in nasa asteroid
-mi…<br />
-</p>
-<p>Art. 6 : hunkering down during martian dust storms and wint…<br />
-</p>
-<p>[ reached max_ndoc … 17,468 more documents ]</p>
-<pre><code>
+Art. 2 :
+&quot;sierra space to partner with spirit aerosystems on dream cha...&quot;
 
+Art. 3 :
+&quot;rocket to launch china s next space station module arrives a...&quot;
 
-&lt;!-- rnb-output-end --&gt;
+Art. 4 :
+&quot;against quad china launches satellite based earth observatio...&quot;
 
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBDcmVhdGUgREZNIHdpdGggdG9rZW5zXG5kZm1fdGV4dF9jbG4gPC0gZGZtKHRva2Vucyh0ZXh0X2Nsbl9jb3JwdXMpKVxuXG4jIERpc3BsYXkgdG9wIGZlYXR1cmVzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4pXG5gYGBcbmBgYCJ9 --&gt;
+Art. 5 :
+&quot;house committee questions proposed delay in nasa asteroid mi...&quot;
 
-```r
-```r
-# Create DFM with tokens
+Art. 6 :
+&quot;ingenuity hunkering down during martian dust storms and wint...&quot;
+
+[ reached max_ndoc ... 17,468 more documents ]</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDcmVhdGUgREZNIHdpdGggdG9rZW5zXG5kZm1fdGV4dF9jbG4gPC0gZGZtKHRva2Vucyh0ZXh0X2Nsbl9jb3JwdXMpKVxuXG4jIERpc3BsYXkgdG9wIGZlYXR1cmVzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4pXG5gYGAifQ== -->
+<pre class="r"><code># Create DFM with tokens
 dfm_text_cln &lt;- dfm(tokens(text_cln_corpus))
 
 # Display top features
 topfeatures(dfm_text_cln)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgdGhlICAgICB0byAgICAgb2YgICAgICBhICAgIGFuZCAgICAgaW4gICAgICBzICAgIGZvciAgIHRoYXQgICAgIGlzIFxuNzExOTU4IDM2NjkxMiAzMDMwMzYgMjcwMTc0IDI2MTk1MiAyMzA4ODQgMTYyMzc5IDE1NjY0OCAxNTMxMjMgMTI1NjM4IFxuIn0= --&gt;
-</code></pre>
-<p>the to of a and in s for that is 711958 366912 303036 270174 261952
-230884 162379 156648 153123 125638</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-We can see that the top features/tokens are, mostly, connectors, so we must get rid of them too to get the real keywords of the articles.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBDdXN0b20gd29yZHMgdG8gZG8gbm90IGluY2x1ZGVcbmN1c3RvbV9zdG9wd29yZHMgPSBjKFxuICBcXHdpbGxcXCwgXFx1XFwsIFxcc1xcLCBcXHNhaWRcXCwgXFxuZXdcXCwgXFxzcGFjZVxcKVxuXG4jIERlbGV0ZSBzdG9wd29yZHMgb2YgdGhlIERGTSBhbmQgbm9uLXVzZWZ1bCB3b3Jkc1xuZGZtX3RleHRfY2xuIDwtIGRmbV9yZW1vdmUoZGZtX3RleHRfY2xuLCBzdG9wd29yZHMoXFxlblxcKSkgJT4lXG4gIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4jIERpc3BsYXkgbmV3IHRvcCB3b3JkcyAobW9zdCBmcmVxdWVudCB3b3JkcylcbnRvcGZlYXR1cmVzKGRmbV90ZXh0X2NsbilcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-# Custom words to do not include
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgdGhlICAgICB0byAgICAgb2YgICAgICBhICAgIGFuZCAgICAgaW4gICAgICBzICAgIGZvciAgIHRoYXQgICAgIGlzIFxuNzExOTU4IDM2NjkxMiAzMDMwMzYgMjcwMTc0IDI2MTk1MiAyMzA4ODQgMTYyMzc5IDE1NjY0OCAxNTMxMjMgMTI1NjM4IFxuIn0= -->
+<pre><code>   the     to     of      a    and     in      s    for   that     is 
+711958 366912 303036 270174 261952 230884 162379 156648 153123 125638 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We can see that the top features/tokens are, mostly, connectors, so
+we must get rid of them too to get the real keywords of the
+articles.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDdXN0b20gd29yZHMgdG8gZG8gbm90IGluY2x1ZGVcbmN1c3RvbV9zdG9wd29yZHMgPSBjKFxuICBcIndpbGxcIiwgXCJ1XCIsIFwic1wiLCBcInNhaWRcIiwgXCJuZXdcIiwgXCJzcGFjZVwiKVxuXG4jIERlbGV0ZSBzdG9wd29yZHMgb2YgdGhlIERGTSBhbmQgbm9uLXVzZWZ1bCB3b3Jkc1xuZGZtX3RleHRfY2xuIDwtIGRmbV9yZW1vdmUoZGZtX3RleHRfY2xuLCBzdG9wd29yZHMoXCJlblwiKSkgJT4lXG4gIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4jIERpc3BsYXkgbmV3IHRvcCB3b3JkcyAobW9zdCBmcmVxdWVudCB3b3JkcylcbnRvcGZlYXR1cmVzKGRmbV90ZXh0X2NsbilcbmBgYCJ9 -->
+<pre class="r"><code># Custom words to do not include
 custom_stopwords = c(
-  \will\, \u\, \s\, \said\, \new\, \space\)
+  &quot;will&quot;, &quot;u&quot;, &quot;s&quot;, &quot;said&quot;, &quot;new&quot;, &quot;space&quot;)
 
 # Delete stopwords of the DFM and non-useful words
-dfm_text_cln &lt;- dfm_remove(dfm_text_cln, stopwords(\en\)) %&gt;%
+dfm_text_cln &lt;- dfm_remove(dfm_text_cln, stopwords(&quot;en&quot;)) %&gt;%
   dfm_remove(pattern = custom_stopwords, valuetype=c(&#39;fixed&#39;))
 
 # Display new top words (most frequent words)
 topfeatures(dfm_text_cln)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgIGxhdW5jaCAgc2F0ZWxsaXRlICAgICAgIG5hc2Egc2F0ZWxsaXRlcyAgICBjb21wYW55ICAgICAgZm9yY2UgY29tbWVyY2lhbCAgICBtaXNzaW9uICAgICAgIHllYXIgICAgbWlsbGlvbiBcbiAgICAgNjYyODMgICAgICA2MDk5MCAgICAgIDUyNTI1ICAgICAgNDE1ODEgICAgICAzMjA0MiAgICAgIDI5MjUzICAgICAgMjg5MTYgICAgICAyODU4NyAgICAgIDI3NzUzICAgICAgMjUxNjIgXG4ifQ== --&gt;
-</code></pre>
-<pre><code>launch  satellite       nasa satellites    company      force commercial    mission       year    million 
- 66283      60990      52525      41581      32042      29253      28916      28587      27753      25162 </code></pre>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBEaXNwbGF5IGxlYXN0IGZyZXF1ZW50IHdvcmRzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4sIGRlY3JlYXNpbmcgPSBGQUxTRSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-# Display least frequent words
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgIGxhdW5jaCAgc2F0ZWxsaXRlICAgICAgIG5hc2Egc2F0ZWxsaXRlcyAgICBjb21wYW55ICAgICAgZm9yY2UgY29tbWVyY2lhbCAgICBtaXNzaW9uICAgICAgIHllYXIgICAgbWlsbGlvbiBcbiAgICAgNjYyODMgICAgICA2MDk5MCAgICAgIDUyNTI1ICAgICAgNDE1ODEgICAgICAzMjA0MiAgICAgIDI5MjUzICAgICAgMjg5MTYgICAgICAyODU4NyAgICAgIDI3NzUzICAgICAgMjUxNjIgXG4ifQ== -->
+<pre><code>    launch  satellite       nasa satellites    company      force commercial    mission       year    million 
+     66283      60990      52525      41581      32042      29253      28916      28587      27753      25162 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEaXNwbGF5IGxlYXN0IGZyZXF1ZW50IHdvcmRzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4sIGRlY3JlYXNpbmcgPSBGQUxTRSlcbmBgYCJ9 -->
+<pre class="r"><code># Display least frequent words
 topfeatures(dfm_text_cln, decreasing = FALSE)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiICBmYXRpbWEgIGNsaXF1ZXMgIHN0b2tpbmcgICBqYWFra28gICBtZWxvbmUgICAgIHRoYXIgIHNlYWZvb2QgICAgIGlwZ3AgICAgICBjaXQgZ2FtYWxpZWwgXG4gICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSBcbiJ9 --&gt;
-</code></pre>
-<p>fatima cliques stoking jaakko melone thar seafood ipgp cit gamaliel 1
-1 1 1 1 1 1 1 1 1</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-The keywords of all the articles are quite expected (*space*, *launch*, *mission*, etc.), since their related to space topics, but we need the keywords of each article.
-
-To find out the keywords of each article, we could use the **T**erm **F**requency, but this does not find the most relevant words just the most frequent, so we&#39;ll use compute the **I**nverse **D**ocument **F**requency, that is the frequency of each token on all articles.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBBZGQga2V5d29yZHMgdG8gdGhlIGRhdGEgc2V0XG5mb3IgKGkgaW4gMTpsZW5ndGgodGV4dF9jbG5fY29ycHVzKSkge1xuICBkZm1fYXJ0aWNsZSA8LSBkZm0odG9rZW5zKHRleHRfY2xuX2NvcnB1c1tpXSkpICU+JVxuICAgIGRmbV9yZW1vdmUoc3RvcHdvcmRzKFxcZW5cXCkpICU+JVxuICAgIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4gIGRhdGEka2V5d29yZHNbaV0gPC0gZGZtX3RmaWRmKGRmbV9hcnRpY2xlLCBzY2hlbWVfdGYgPSBcXHByb3BcXCkgJT4lXG4gICAgdG9wZmVhdHVyZXMgJT4lIG5hbWVzICU+JSBwYXN0ZShjb2xsYXBzZSA9IFxcIFxcKVxufVxucm0oZGZtX2FydGljbGUpXG5ybShpKVxucm0oY3VzdG9tX3N0b3B3b3JkcylcbiMgRXhhbXBsZSBvZiBrZXl3b3JkcyBvZiBhcnRpY2xlc1xuZGF0YSRrZXl3b3Jkc1sxOjVdXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-# Add keywords to the data set
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICBmYXRpbWEgIGNsaXF1ZXMgIHN0b2tpbmcgICBqYWFra28gICBtZWxvbmUgICAgIHRoYXIgIHNlYWZvb2QgICAgIGlwZ3AgICAgICBjaXQgZ2FtYWxpZWwgXG4gICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSBcbiJ9 -->
+<pre><code>  fatima  cliques  stoking   jaakko   melone     thar  seafood     ipgp      cit gamaliel 
+       1        1        1        1        1        1        1        1        1        1 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The keywords of all the articles are quite expected (<em>space</em>,
+<em>launch</em>, <em>mission</em>, etc.), since their related to space
+topics, but we need the keywords of each article.</p>
+<p>To find out the keywords of each article, we could use the
+<strong>T</strong>erm <strong>F</strong>requency, but this does not find
+the most relevant words just the most frequent, so we’ll use compute the
+<strong>I</strong>nverse <strong>D</strong>ocument
+<strong>F</strong>requency, that is the frequency of each token on all
+articles.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBZGQga2V5d29yZHMgdG8gdGhlIGRhdGEgc2V0XG5mb3IgKGkgaW4gMTpsZW5ndGgodGV4dF9jbG5fY29ycHVzKSkge1xuICBkZm1fYXJ0aWNsZSA8LSBkZm0odG9rZW5zKHRleHRfY2xuX2NvcnB1c1tpXSkpICU+JVxuICAgIGRmbV9yZW1vdmUoc3RvcHdvcmRzKFwiZW5cIikpICU+JVxuICAgIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4gIGRhdGEka2V5d29yZHNbaV0gPC0gZGZtX3RmaWRmKGRmbV9hcnRpY2xlLCBzY2hlbWVfdGYgPSBcInByb3BcIikgJT4lXG4gICAgdG9wZmVhdHVyZXMgJT4lIG5hbWVzICU+JSBwYXN0ZShjb2xsYXBzZSA9IFwiIFwiKVxufVxucm0oZGZtX2FydGljbGUpXG5ybShpKVxucm0oY3VzdG9tX3N0b3B3b3JkcylcbiMgRXhhbXBsZSBvZiBrZXl3b3JkcyBvZiBhcnRpY2xlc1xuZGF0YSRrZXl3b3Jkc1sxOjVdXG5gYGAifQ== -->
+<pre class="r"><code># Add keywords to the data set
 for (i in 1:length(text_cln_corpus)) {
   dfm_article &lt;- dfm(tokens(text_cln_corpus[i])) %&gt;%
-    dfm_remove(stopwords(\en\)) %&gt;%
+    dfm_remove(stopwords(&quot;en&quot;)) %&gt;%
     dfm_remove(pattern = custom_stopwords, valuetype=c(&#39;fixed&#39;))
 
-  data$keywords[i] &lt;- dfm_tfidf(dfm_article, scheme_tf = \prop\) %&gt;%
-    topfeatures %&gt;% names %&gt;% paste(collapse = \ \)
+  data$keywords[i] &lt;- dfm_tfidf(dfm_article, scheme_tf = &quot;prop&quot;) %&gt;%
+    topfeatures %&gt;% names %&gt;% paste(collapse = &quot; &quot;)
 }
 rm(dfm_article)
 rm(i)
 rm(custom_stopwords)
 # Example of keywords of articles
 data$keywords[1:5]</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcYXN0cm9jYXN0IGJ1eWluZyBoaWJlciBib29zdCBmdW5kaW5nIGV4cGFuc2lvbiBwbGFucyB0YW1wYSBmbGEgY2FzaFxcICAgICAgICAgICAgICBcblsyXSBcXHNpZXJyYSBwYXJ0bmVyIHNwaXJpdCBhZXJvc3lzdGVtcyBkcmVhbSBjaGFzZXIgY2FyZ28gbW9kdWxlcyB3YXNoaW5ndG9uIGFubm91bmNlZFxcXG5bM10gXFxyb2NrZXQgbGF1bmNoIGNoaW5hIG5leHQgc3RhdGlvbiBtb2R1bGUgYXJyaXZlcyBjZW50ZXIgaGVsc2lua2kgbG9uZ1xcICAgICAgICAgICAgIFxuWzRdIFxccXVhZCBjaGluYSBsYXVuY2hlcyBzYXRlbGxpdGUgYmFzZWQgZWFydGggb2JzZXJ2YXRpb24gaW5pdGlhdGl2ZSBicmljcyBuYXRpb25zXFwgICBcbls1XSBcXGhvdXNlIGNvbW1pdHRlZSBxdWVzdGlvbnMgcHJvcG9zZWQgZGVsYXkgbmFzYSBhc3Rlcm9pZCBtaXNzaW9uIHdhc2hpbmd0b24gbWVtYmVyc1xcXG4ifQ== --&gt;
-</code></pre>
-<p>[1] buying hiber boost funding expansion plans tampa fla cash <br />
-[2] partner spirit aerosystems dream chaser cargo modules washington
-announced<br />
-[3] launch china next station module arrives center helsinki long <br />
-[4] china launches satellite based earth observation initiative brics
-nations <br />
-[5] committee questions proposed delay nasa asteroid mission washington
-members<br />
-</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-The **TF-IDF** process has come up with the keywords of each article, which could be used to classify them and add said words to the articles, so the reader is able to identify the topic of the article with a couple of words.
-
-# 4. Article classifier
-
-Since the articles are not classified, and trying to generate the topic of the article is not possible since we do not have the articles classified to train the model, we will write down the code for a *Naive Bayes model* in case this data set articles are classified in the future, allowing the training and testing of the model.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBTYW1wbGUgb3JkZXIgdG8gY2hvb3NlIHRyYWluaW5nIGFuZCB0ZXN0aW5nIGFydGljbGVzXG5pbmRleF90cmFpbiA8LSBzYW1wbGUobmRvYyhkZm1fdGV4dF9jbG4pLCAwLjc1Km5kb2MoZGZtX3RleHRfY2xuKSlcblxuIyBUcmFpbmluZyBhbmQgVGVzdGluZyBkYXRhc2V0XG5kZm1fdHJhaW4gPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICBpZCAlaW4lIGluZGV4X3RyYWluKVxuZGZtX3Rlc3QgPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICFpZCAlaW4lIGluZGV4X3RyYWluKVxuXG4jIFRyYWluIG1vZGVsXG5uYl9tb2RlbCA8LSB0ZXh0bW9kZWxfbmIoZGZtX3RyYWluaW5nLCBkZm1fdHJhaW5pbmckY2F0ZWdvcnksIGRpc3RyaWJ1dGlvbiA9IFwibXVsdGlub21pYWxcIilcbnN1bW1hcnkobmJfbW9kZWwpXG5cbiMgR2V0IHRlc3QgcmVzdWx0c1xuZGZtX3ByZWRpY3RlZCA8LSBwcmVkaWN0KG5iX21vZGVsLCBuZXdkYXRhID0gZGZtX3Rlc3QpXG5cbiMgQ29uZnVzaW9uIG1hdHJpeFxuY29uZk0gPC0gY29uZnVzaW9uTWF0cml4KGRmbV9wcmVkaWN0ZWQsIGRvY3ZhcnMoZGZtX3Rlc3QpJGNhdGVnb3J5KVxuXG5jb2luY2lkZW5jZXMgPC0gc3VtKGFzLmNoYXJhY3RlcihkZm1fcHJlZGljdGVkKSA9PSBhcy5jaGFyYWN0ZXIoZG9jdmFycyhkZm1fdGVzdCkkY2F0ZWdvcnkpKVxuIyBBY2N1cmFjeSwgcHJlY2lzaW9uIGFuZCByZWNhbGwgb2YgcHJlZGljdGlvblxuYWNjIDwtIGNvaW5jaWRlbmNlcyAvIGxlbmd0aChhcy5jaGFyYWN0ZXIoZGZtX3ByZWRpY3RlZCkpXG5hY2NcblxucHJlIDwtIGNvbmZNJGJ5Q2xhc3NbJ1BvcyBQcmVkIFZhbHVlJ11cbnByZVxucmVjIDwtIGNvbmZNJGJ5Q2xhc3NbJ1NlbnNpdGl2aXR5J11cbnJlY1xubGlzdChhY2MgPSBhY2MsIHAgPSBwcmUsIHI9IHJlYylcbmBgYCJ9 --&gt;
-
-```r
-# Sample order to choose training and testing articles
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYXN0cm9jYXN0IGJ1eWluZyBoaWJlciBib29zdCBmdW5kaW5nIGV4cGFuc2lvbiBwbGFucyB0YW1wYSBmbGEgY2FzaFwiICAgICAgICAgICAgICBcblsyXSBcInNpZXJyYSBwYXJ0bmVyIHNwaXJpdCBhZXJvc3lzdGVtcyBkcmVhbSBjaGFzZXIgY2FyZ28gbW9kdWxlcyB3YXNoaW5ndG9uIGFubm91bmNlZFwiXG5bM10gXCJyb2NrZXQgbGF1bmNoIGNoaW5hIG5leHQgc3RhdGlvbiBtb2R1bGUgYXJyaXZlcyBjZW50ZXIgaGVsc2lua2kgbG9uZ1wiICAgICAgICAgICAgIFxuWzRdIFwicXVhZCBjaGluYSBsYXVuY2hlcyBzYXRlbGxpdGUgYmFzZWQgZWFydGggb2JzZXJ2YXRpb24gaW5pdGlhdGl2ZSBicmljcyBuYXRpb25zXCIgICBcbls1XSBcImhvdXNlIGNvbW1pdHRlZSBxdWVzdGlvbnMgcHJvcG9zZWQgZGVsYXkgbmFzYSBhc3Rlcm9pZCBtaXNzaW9uIHdhc2hpbmd0b24gbWVtYmVyc1wiXG4ifQ== -->
+<pre><code>[1] &quot;astrocast buying hiber boost funding expansion plans tampa fla cash&quot;              
+[2] &quot;sierra partner spirit aerosystems dream chaser cargo modules washington announced&quot;
+[3] &quot;rocket launch china next station module arrives center helsinki long&quot;             
+[4] &quot;quad china launches satellite based earth observation initiative brics nations&quot;   
+[5] &quot;house committee questions proposed delay nasa asteroid mission washington members&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The <strong>TF-IDF</strong> process has come up with the keywords of
+each article, which could be used to classify them and add said words to
+the articles, so the reader is able to identify the topic of the article
+with a couple of words.</p>
+</div>
+<div id="article-classifier" class="section level1">
+<h1>4. Article classifier</h1>
+<p>Since the articles are not classified, and trying to generate the
+topic of the article is not possible since we do not have the articles
+classified to train the model, we will write down the code for a
+<em>Naive Bayes model</em> in case this data set articles are classified
+in the future, allowing the training and testing of the model.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBTYW1wbGUgb3JkZXIgdG8gY2hvb3NlIHRyYWluaW5nIGFuZCB0ZXN0aW5nIGFydGljbGVzXG5pbmRleF90cmFpbiA8LSBzYW1wbGUobmRvYyhkZm1fdGV4dF9jbG4pLCAwLjc1Km5kb2MoZGZtX3RleHRfY2xuKSlcblxuIyBUcmFpbmluZyBhbmQgVGVzdGluZyBkYXRhc2V0XG5kZm1fdHJhaW4gPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICBpZCAlaW4lIGluZGV4X3RyYWluKVxuZGZtX3Rlc3QgPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICFpZCAlaW4lIGluZGV4X3RyYWluKVxuXG4jIFRyYWluIG1vZGVsXG5uYl9tb2RlbCA8LSB0ZXh0bW9kZWxfbmIoZGZtX3RyYWluaW5nLCBkZm1fdHJhaW5pbmckY2F0ZWdvcnksIGRpc3RyaWJ1dGlvbiA9IFwibXVsdGlub21pYWxcIilcbnN1bW1hcnkobmJfbW9kZWwpXG5cbiMgR2V0IHRlc3QgcmVzdWx0c1xuZGZtX3ByZWRpY3RlZCA8LSBwcmVkaWN0KG5iX21vZGVsLCBuZXdkYXRhID0gZGZtX3Rlc3QpXG5cbiMgQ29uZnVzaW9uIG1hdHJpeFxuY29uZk0gPC0gY29uZnVzaW9uTWF0cml4KGRmbV9wcmVkaWN0ZWQsIGRvY3ZhcnMoZGZtX3Rlc3QpJGNhdGVnb3J5KVxuXG5jb2luY2lkZW5jZXMgPC0gc3VtKGFzLmNoYXJhY3RlcihkZm1fcHJlZGljdGVkKSA9PSBhcy5jaGFyYWN0ZXIoZG9jdmFycyhkZm1fdGVzdCkkY2F0ZWdvcnkpKVxuIyBBY2N1cmFjeSwgcHJlY2lzaW9uIGFuZCByZWNhbGwgb2YgcHJlZGljdGlvblxuYWNjIDwtIGNvaW5jaWRlbmNlcyAvIGxlbmd0aChhcy5jaGFyYWN0ZXIoZGZtX3ByZWRpY3RlZCkpXG5hY2NcblxucHJlIDwtIGNvbmZNJGJ5Q2xhc3NbJ1BvcyBQcmVkIFZhbHVlJ11cbnByZVxucmVjIDwtIGNvbmZNJGJ5Q2xhc3NbJ1NlbnNpdGl2aXR5J11cbnJlY1xubGlzdChhY2MgPSBhY2MsIHAgPSBwcmUsIHI9IHJlYylcbmBgYCJ9 -->
+<pre class="r"><code># Sample order to choose training and testing articles
 index_train &lt;- sample(ndoc(dfm_text_cln), 0.75*ndoc(dfm_text_cln))
 
 # Training and Testing dataset

@@ -1783,11 +1783,15 @@ their contents. This could be done through text processing, using an NLP
 trained model to classify the articles and assign them to a certain
 topic.</p>
 <p>To achieve this, we have used the <a href="https://www.kaggle.com/datasets/patrickfleith/space-news-dataset">Space
-News dataset</a> that contains more than 17.00 articles related to the
+News dataset</a> that contains more than 17.000 articles related to the
 space industry covering news, commercial, civil, launches, military, and
 also opinion articles.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgYmFzaFxuIyBVbnppcHBpbmcgdGhlIGRhdGEgc2V0XG51bnppcCAtbiBhcmNoaXZlLnppcFxuYGBgIn0= -->
+<pre class="bash"><code># Unzipping the data set
+unzip -n archive.zip</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1797,11 +1801,9 @@ also opinion articles.</p>
 installed my hand, with <code>install.packages</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoic3BhQ3kgaXMgYWxyZWFkeSBpbml0aWFsaXplZFxuIn0= -->
-<pre><code>spaCy is already initialized</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTlVMTFxuIn0= -->
-<pre><code>NULL</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoic3BhQ3kgaXMgYWxyZWFkeSBpbml0aWFsaXplZFxuTlVMTFxuIn0= -->
+<pre><code>spaCy is already initialized
+NULL</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1811,113 +1813,221 @@ installed my hand, with <code>install.packages</code>.</p>
 <p>The first thing to do, of course, is read the data:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGFuZCBzZXQgQ1dEXG5zZXR3ZChkaXJuYW1lKHJzdHVkaW9hcGk6OmdldEFjdGl2ZURvY3VtZW50Q29udGV4dCgpJHBhdGgpKVxub2dfZGF0YSA8LSByZWFkLmNzdihcInNwYWNlbmV3cy5jc3ZcIiwgaGVhZGVyID0gVFJVRSwgc2VwID0gJywnKVxuYGBgIn0= -->
-<pre class="r"><code># Read and set CWD
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBSZWFkIGFuZCBzZXQgQ1dEXG5zZXR3ZChkaXJuYW1lKHJzdHVkaW9hcGk6OmdldEFjdGl2ZURvY3VtZW50Q29udGV4dCgpJHBhdGgpKVxub2dfZGF0YSA8LSByZWFkLmNzdihcXHNwYWNlbmV3cy5jc3ZcXCwgaGVhZGVyID0gVFJVRSwgc2VwID0gJywnKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+# Read and set CWD
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-og_data &lt;- read.csv(&quot;spacenews.csv&quot;, header = TRUE, sep = &#39;,&#39;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>The data set is composed of 6 columns (<code>title</code>,
-<code>url</code>, <code>content</code>, <code>author</code>,
-<code>date</code>, <code>postexcerpt</code>), but we do not need all of
-them, so we get rid of the <code>url</code>, <code>author</code> and
-<code>date</code>, keeping only the columns <code>title</code>,
-<code>content</code> and <code>postexcerpt</code>. The
-<code>postexcerpt</code> is a small description of the article, like an
-abstract.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YSA8LSBzdWJzZXQob2dfZGF0YSwgc2VsZWN0ID0gYyh0aXRsZSwgY29udGVudCwgcG9zdGV4Y2VycHQpKVxucm0ob2dfZGF0YSlcbmBgYCJ9 -->
-<pre class="r"><code>data &lt;- subset(og_data, select = c(title, content, postexcerpt))
+og_data &lt;- read.csv(\spacenews.csv\, header = TRUE, sep = &#39;,&#39;)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+The data set is composed of 6 columns (`title`, `url`, `content`, `author`, `date`, `postexcerpt`), but we do not need all of them, so we get rid of the `url`, `author` and `date`, keeping only the columns `title`, `content` and `postexcerpt`. The `postexcerpt` is a small description of the article, like an abstract.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGF0YSA8LSBzdWJzZXQob2dfZGF0YSwgc2VsZWN0ID0gYyh0aXRsZSwgY29udGVudCwgcG9zdGV4Y2VycHQpKVxucm0ob2dfZGF0YSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+data &lt;- subset(og_data, select = c(title, content, postexcerpt))
 rm(og_data)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Now that we do have the data set we are going to use, we must check
-there are no bad or missing values.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2hpY2goaXMubmEoZGF0YSkpICMgRXhwZWVjdGVkOiBpbnRlZ2VyKDApXG5gYGAifQ== -->
-<pre class="r"><code>which(is.na(data)) # Expeected: integer(0)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiaW50ZWdlcigwKVxuIn0= -->
-<pre><code>integer(0)</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>With no missing data, we also check the text encoding and
-normalization of each article:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBFbmNvZGluZ1xuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSR0aXRsZSldKSAjIEV4cGVjdGVkOiAwXG5gYGAifQ== -->
-<pre class="r"><code># Encoding
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Now that we do have the data set we are going to use, we must check there are no bad or missing values.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2hpY2goaXMubmEoZGF0YSkpICMgRXhwZWVjdGVkOiBpbnRlZ2VyKDApXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+which(is.na(data)) # Expeected: integer(0)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiaW50ZWdlcigwKVxuIn0= --&gt;
+</code></pre>
+<p>integer(0)</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+With no missing data, we also check the text encoding and normalization of each article:
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBFbmNvZGluZ1xuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSR0aXRsZSldKSAjIEV4cGVjdGVkOiAwXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+# Encoding
 sum(data[!utf8_valid(data$title)]) # Expected: 0</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
-<pre><code>[1] 0</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRjb250ZW50KV0pICMgRXhwZWN0ZWQ6IDBcbmBgYCJ9 -->
-<pre class="r"><code>sum(data[!utf8_valid(data$content)]) # Expected: 0</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
-<pre><code>[1] 0</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRwb3N0ZXhjZXJwdCldKSAjIEV4cGVjdGVkOiAwXG5gYGAifQ== -->
-<pre class="r"><code>sum(data[!utf8_valid(data$postexcerpt)]) # Expected: 0</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
-<pre><code>[1] 0</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3JtYWxpemF0aW9uXG50aXRsZV9ORkMgPC0gdXRmOF9ub3JtYWxpemUoZGF0YSR0aXRsZSlcbnN1bSh0aXRsZV9ORkMgIT0gZGF0YSR0aXRsZSkgIyBFeHBlY3RlZDogMFxuYGBgIn0= -->
-<pre class="r"><code># Normalization
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
+</code></pre>
+<p>[1] 0</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRjb250ZW50KV0pICMgRXhwZWN0ZWQ6IDBcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+sum(data[!utf8_valid(data$content)]) # Expected: 0</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
+</code></pre>
+<p>[1] 0</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRwb3N0ZXhjZXJwdCldKSAjIEV4cGVjdGVkOiAwXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+sum(data[!utf8_valid(data$postexcerpt)]) # Expected: 0</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
+</code></pre>
+<p>[1] 0</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBOb3JtYWxpemF0aW9uXG50aXRsZV9ORkMgPC0gdXRmOF9ub3JtYWxpemUoZGF0YSR0aXRsZSlcbnN1bSh0aXRsZV9ORkMgIT0gZGF0YSR0aXRsZSkgIyBFeHBlY3RlZDogMFxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+# Normalization
 title_NFC &lt;- utf8_normalize(data$title)
 sum(title_NFC != data$title) # Expected: 0</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
-<pre><code>[1] 0</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVzY3JfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShkZXNjcl9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgIn0= -->
-<pre class="r"><code>descr_NFC &lt;- utf8_normalize(data$content)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
+</code></pre>
+<p>[1] 0</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGVzY3JfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShkZXNjcl9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+descr_NFC &lt;- utf8_normalize(data$content)
 sum(descr_NFC != data$description) # EXpected: 0</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
-<pre><code>[1] 0</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucG9zdGVfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShwb3N0ZV9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgIn0= -->
-<pre class="r"><code>poste_NFC &lt;- utf8_normalize(data$content)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
+</code></pre>
+<p>[1] 0</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucG9zdGVfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudClcbnN1bShwb3N0ZV9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMFxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+poste_NFC &lt;- utf8_normalize(data$content)
 sum(poste_NFC != data$description) # EXpected: 0</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
-<pre><code>[1] 0</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEZWxldGUgZGF0YSB0byByZWxlYXNlIG1lbW9yeVxucm0odGl0bGVfTkZDKVxucm0oZGVzY3JfTkZDKVxucm0ocG9zdGVfTkZDKVxuYGBgIn0= -->
-<pre class="r"><code># Delete data to release memory
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 --&gt;
+</code></pre>
+<p>[1] 0</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBEZWxldGUgZGF0YSB0byByZWxlYXNlIG1lbW9yeVxucm0odGl0bGVfTkZDKVxucm0oZGVzY3JfTkZDKVxucm0ocG9zdGVfTkZDKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+# Delete data to release memory
 rm(title_NFC)
 rm(descr_NFC)
 rm(poste_NFC)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Now that we know the text is properly encoded and normalized, we
-create a single string for each article that includes
-<code>title</code>, <code>content</code> and <code>postexcerpt</code>,
-and then strip the extra white spaces, tabs, etc.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBTaW5nbGUgbGluZSBwZXIgYXJ0aWNsZVxudGV4dCA8LSBwYXN0ZShkYXRhJHRpdGxlLCBkYXRhJGNvbnRlbnQsIGRhdGEkcG9zdGV4Y2VycHQsIHNlcCA9IFwiIFwiKVxuXG4jIFJlbW92ZSBleHRyYSBzcGFjZXMsIHB1bmN0dWF0aW9uIHN5bWJvbHMsIGV0Yy5cbnRleHRfY2xuIDwtIGdzdWIoXCJbXmEtekEtWjAtOV1cIiwgXCIgXCIsIHRleHQpXG50ZXh0X2NsbiA8LSBnc3ViKFwiWyBdezIsfVwiLCBcIiBcIiwgdGV4dF9jbG4pXG50ZXh0X2NsbiA8LSBnc3ViKFwiKFxcXFxkfFxcXFxXKStcIiwgXCIgXCIsIHRleHRfY2xuKVxuXG4jIEFsbCBsb3dlciBjYXNlXG50ZXh0X2NsbiA8LSB0b2xvd2VyKHRleHRfY2xuKVxuXG5ybSh0ZXh0KVxuYGBgIn0= -->
-<pre class="r"><code># Single line per article
-text &lt;- paste(data$title, data$content, data$postexcerpt, sep = &quot; &quot;)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Now that we know the text is properly encoded and normalized, we create a single string for each article that includes `title`, `content` and `postexcerpt`, and then strip the extra white spaces, tabs, etc.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBTaW5nbGUgbGluZSBwZXIgYXJ0aWNsZVxudGV4dCA8LSBwYXN0ZShkYXRhJHRpdGxlLCBkYXRhJGNvbnRlbnQsIGRhdGEkcG9zdGV4Y2VycHQsIHNlcCA9IFxcIFxcKVxuXG4jIFJlbW92ZSBleHRyYSBzcGFjZXMsIHB1bmN0dWF0aW9uIHN5bWJvbHMsIGV0Yy5cbnRleHRfY2xuIDwtIGdzdWIoXFxbXmEtekEtWjAtOV1cXCwgXFwgXFwsIHRleHQpXG50ZXh0X2NsbiA8LSBnc3ViKFxcWyBdezJcbmBgYCJ9 --&gt;
+
+```r
+```r
+# Single line per article
+text &lt;- paste(data$title, data$content, data$postexcerpt, sep = \ \)
 
 # Remove extra spaces, punctuation symbols, etc.
-text_cln &lt;- gsub(&quot;[^a-zA-Z0-9]&quot;, &quot; &quot;, text)
-text_cln &lt;- gsub(&quot;[ ]{2,}&quot;, &quot; &quot;, text_cln)
-text_cln &lt;- gsub(&quot;(\\d|\\W)+&quot;, &quot; &quot;, text_cln)
-
-# All lower case
-text_cln &lt;- tolower(text_cln)
-
-rm(text)</code></pre>
+text_cln &lt;- gsub(\[^a-zA-Z0-9]\, \ \, text)
+text_cln &lt;- gsub(\[ ]{2</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1929,137 +2039,200 @@ analyse the text to get this words, that might be essential to classify
 each article.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOYW1lIHRoZSByb3dzIHRvIGRpZmZlcmVudGlhdGUgdGhlbVxubmFtZXModGV4dF9jbG4pIDwtIHBhc3RlKFwiQXJ0LlwiLCAxOmxlbmd0aCh0ZXh0X2NsbikpXG5cbiMgQ3JlYXRlIGNvcnB1c1xudGV4dF9jbG5fY29ycHVzIDwtIGNvcnB1cyh0ZXh0X2NsbilcblxuIyBDcmVhdGUgZG9jdmFyXG5kb2N2YXJzKHRleHRfY2xuX2NvcnB1cywgZmllbGQgPSBcIkFydGljbGVcIikgPC0gMTpsZW5ndGgodGV4dF9jbG4pXG5cbiMgRXhhbXBsZSBvZiB0aGUgY29ycHVzXG50ZXh0X2Nsbl9jb3JwdXNcbmBgYCJ9 -->
-<pre class="r"><code># Name the rows to differentiate them
-names(text_cln) &lt;- paste(&quot;Art.&quot;, 1:length(text_cln))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBOYW1lIHRoZSByb3dzIHRvIGRpZmZlcmVudGlhdGUgdGhlbVxubmFtZXModGV4dF9jbG4pIDwtIHBhc3RlKFxcQXJ0LlxcLCAxOmxlbmd0aCh0ZXh0X2NsbikpXG5cbiMgQ3JlYXRlIGNvcnB1c1xudGV4dF9jbG5fY29ycHVzIDwtIGNvcnB1cyh0ZXh0X2NsbilcblxuIyBDcmVhdGUgZG9jdmFyXG5kb2N2YXJzKHRleHRfY2xuX2NvcnB1cywgZmllbGQgPSBcXEFydGljbGVcXCkgPC0gMTpsZW5ndGgodGV4dF9jbG4pXG5cbiMgRXhhbXBsZSBvZiB0aGUgY29ycHVzXG50ZXh0X2Nsbl9jb3JwdXNcbmBgYFxuYGBgIn0= -->
+<pre class="r"><code>```r
+# Name the rows to differentiate them
+names(text_cln) &lt;- paste(\Art.\, 1:length(text_cln))
 
 # Create corpus
 text_cln_corpus &lt;- corpus(text_cln)
 
 # Create docvar
-docvars(text_cln_corpus, field = &quot;Article&quot;) &lt;- 1:length(text_cln)
+docvars(text_cln_corpus, field = \Article\) &lt;- 1:length(text_cln)
 
 # Example of the corpus
 text_cln_corpus</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiQ29ycHVzIGNvbnNpc3Rpbmcgb2YgMTcsNDc0IGRvY3VtZW50cyBhbmQgMSBkb2N2YXIuXG5BcnQuIDEgOlxuXCJhc3Ryb2Nhc3QgYnV5aW5nIGhpYmVyIHRvIGJvb3N0IGZ1bmRpbmcgYW5kIGV4cGFuc2lvbiBwbGFucyAuLi5cIlxuXG5BcnQuIDIgOlxuXCJzaWVycmEgc3BhY2UgdG8gcGFydG5lciB3aXRoIHNwaXJpdCBhZXJvc3lzdGVtcyBvbiBkcmVhbSBjaGEuLi5cIlxuXG5BcnQuIDMgOlxuXCJyb2NrZXQgdG8gbGF1bmNoIGNoaW5hIHMgbmV4dCBzcGFjZSBzdGF0aW9uIG1vZHVsZSBhcnJpdmVzIGEuLi5cIlxuXG5BcnQuIDQgOlxuXCJhZ2FpbnN0IHF1YWQgY2hpbmEgbGF1bmNoZXMgc2F0ZWxsaXRlIGJhc2VkIGVhcnRoIG9ic2VydmF0aW8uLi5cIlxuXG5BcnQuIDUgOlxuXCJob3VzZSBjb21taXR0ZWUgcXVlc3Rpb25zIHByb3Bvc2VkIGRlbGF5IGluIG5hc2EgYXN0ZXJvaWQgbWkuLi5cIlxuXG5BcnQuIDYgOlxuXCJpbmdlbnVpdHkgaHVua2VyaW5nIGRvd24gZHVyaW5nIG1hcnRpYW4gZHVzdCBzdG9ybXMgYW5kIHdpbnQuLi5cIlxuXG5bIHJlYWNoZWQgbWF4X25kb2MgLi4uIDE3LDQ2OCBtb3JlIGRvY3VtZW50cyBdXG4ifQ== -->
-<pre><code>Corpus consisting of 17,474 documents and 1 docvar.
-Art. 1 :
-&quot;astrocast buying hiber to boost funding and expansion plans ...&quot;
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
 
-Art. 2 :
-&quot;sierra space to partner with spirit aerosystems on dream cha...&quot;
+&lt;!-- rnb-output-begin eyJkYXRhIjoiQ29ycHVzIGNvbnNpc3Rpbmcgb2YgMTcsNDc0IGRvY3VtZW50cyBhbmQgMSBkb2N2YXIuXG5BcnQuIDEgOlxuXFxhc3Ryb2Nhc3QgYnV5aW5nIGhpYmVyIHRvIGJvb3N0IGZ1bmRpbmcgYW5kIGV4cGFuc2lvbiBwbGFucyAuLi5cXFxuXG5BcnQuIDIgOlxuXFxzaWVycmEgc3BhY2UgdG8gcGFydG5lciB3aXRoIHNwaXJpdCBhZXJvc3lzdGVtcyBvbiBkcmVhbSBjaGEuLi5cXFxuXG5BcnQuIDMgOlxuXFxyb2NrZXQgdG8gbGF1bmNoIGNoaW5hIHMgbmV4dCBzcGFjZSBzdGF0aW9uIG1vZHVsZSBhcnJpdmVzIGEuLi5cXFxuXG5BcnQuIDQgOlxuXFxhZ2FpbnN0IHF1YWQgY2hpbmEgbGF1bmNoZXMgc2F0ZWxsaXRlIGJhc2VkIGVhcnRoIG9ic2VydmF0aW8uLi5cXFxuXG5BcnQuIDUgOlxuXFxob3VzZSBjb21taXR0ZWUgcXVlc3Rpb25zIHByb3Bvc2VkIGRlbGF5IGluIG5hc2EgYXN0ZXJvaWQgbWkuLi5cXFxuXG5BcnQuIDYgOlxuXFxpbmdlbnVpdHkgaHVua2VyaW5nIGRvd24gZHVyaW5nIG1hcnRpYW4gZHVzdCBzdG9ybXMgYW5kIHdpbnQuLi5cXFxuXG5bIHJlYWNoZWQgbWF4X25kb2MgLi4uIDE3LDQ2OCBtb3JlIGRvY3VtZW50cyBdXG4ifQ== --&gt;
+</code></pre>
+<p>Corpus consisting of 17,474 documents and 1 docvar. Art. 1 : buying
+hiber to boost funding and expansion plans …<br />
+</p>
+<p>Art. 2 : space to partner with spirit aerosystems on dream cha…<br />
+</p>
+<p>Art. 3 : to launch china s next space station module arrives a…<br />
+</p>
+<p>Art. 4 : quad china launches satellite based earth observatio…<br />
+</p>
+<p>Art. 5 : committee questions proposed delay in nasa asteroid
+mi…<br />
+</p>
+<p>Art. 6 : hunkering down during martian dust storms and wint…<br />
+</p>
+<p>[ reached max_ndoc … 17,468 more documents ]</p>
+<pre><code>
 
-Art. 3 :
-&quot;rocket to launch china s next space station module arrives a...&quot;
 
-Art. 4 :
-&quot;against quad china launches satellite based earth observatio...&quot;
+&lt;!-- rnb-output-end --&gt;
 
-Art. 5 :
-&quot;house committee questions proposed delay in nasa asteroid mi...&quot;
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBDcmVhdGUgREZNIHdpdGggdG9rZW5zXG5kZm1fdGV4dF9jbG4gPC0gZGZtKHRva2Vucyh0ZXh0X2Nsbl9jb3JwdXMpKVxuXG4jIERpc3BsYXkgdG9wIGZlYXR1cmVzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4pXG5gYGBcbmBgYCJ9 --&gt;
 
-Art. 6 :
-&quot;ingenuity hunkering down during martian dust storms and wint...&quot;
-
-[ reached max_ndoc ... 17,468 more documents ]</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDcmVhdGUgREZNIHdpdGggdG9rZW5zXG5kZm1fdGV4dF9jbG4gPC0gZGZtKHRva2Vucyh0ZXh0X2Nsbl9jb3JwdXMpKVxuXG4jIERpc3BsYXkgdG9wIGZlYXR1cmVzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4pXG5gYGAifQ== -->
-<pre class="r"><code># Create DFM with tokens
+```r
+```r
+# Create DFM with tokens
 dfm_text_cln &lt;- dfm(tokens(text_cln_corpus))
 
 # Display top features
 topfeatures(dfm_text_cln)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgdGhlICAgICB0byAgICAgb2YgICAgICBhICAgIGFuZCAgICAgaW4gICAgICBzICAgIGZvciAgIHRoYXQgICAgIGlzIFxuNzExOTU4IDM2NjkxMiAzMDMwMzYgMjcwMTc0IDI2MTk1MiAyMzA4ODQgMTYyMzc5IDE1NjY0OCAxNTMxMjMgMTI1NjM4IFxuIn0= -->
-<pre><code>   the     to     of      a    and     in      s    for   that     is 
-711958 366912 303036 270174 261952 230884 162379 156648 153123 125638 </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>We can see that the top features/tokens are, mostly, connectors, so
-we must get rid of them too to get the real keywords of the
-articles.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDdXN0b20gd29yZHMgdG8gZG8gbm90IGluY2x1ZGVcbmN1c3RvbV9zdG9wd29yZHMgPSBjKFxuICBcIndpbGxcIiwgXCJ1XCIsIFwic1wiLCBcInNhaWRcIiwgXCJuZXdcIiwgXCJzcGFjZVwiKVxuXG4jIERlbGV0ZSBzdG9wd29yZHMgb2YgdGhlIERGTSBhbmQgbm9uLXVzZWZ1bCB3b3Jkc1xuZGZtX3RleHRfY2xuIDwtIGRmbV9yZW1vdmUoZGZtX3RleHRfY2xuLCBzdG9wd29yZHMoXCJlblwiKSkgJT4lXG4gIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4jIERpc3BsYXkgbmV3IHRvcCB3b3JkcyAobW9zdCBmcmVxdWVudCB3b3JkcylcbnRvcGZlYXR1cmVzKGRmbV90ZXh0X2NsbilcbmBgYCJ9 -->
-<pre class="r"><code># Custom words to do not include
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgdGhlICAgICB0byAgICAgb2YgICAgICBhICAgIGFuZCAgICAgaW4gICAgICBzICAgIGZvciAgIHRoYXQgICAgIGlzIFxuNzExOTU4IDM2NjkxMiAzMDMwMzYgMjcwMTc0IDI2MTk1MiAyMzA4ODQgMTYyMzc5IDE1NjY0OCAxNTMxMjMgMTI1NjM4IFxuIn0= --&gt;
+</code></pre>
+<p>the to of a and in s for that is 711958 366912 303036 270174 261952
+230884 162379 156648 153123 125638</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+We can see that the top features/tokens are, mostly, connectors, so we must get rid of them too to get the real keywords of the articles.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBDdXN0b20gd29yZHMgdG8gZG8gbm90IGluY2x1ZGVcbmN1c3RvbV9zdG9wd29yZHMgPSBjKFxuICBcXHdpbGxcXCwgXFx1XFwsIFxcc1xcLCBcXHNhaWRcXCwgXFxuZXdcXCwgXFxzcGFjZVxcKVxuXG4jIERlbGV0ZSBzdG9wd29yZHMgb2YgdGhlIERGTSBhbmQgbm9uLXVzZWZ1bCB3b3Jkc1xuZGZtX3RleHRfY2xuIDwtIGRmbV9yZW1vdmUoZGZtX3RleHRfY2xuLCBzdG9wd29yZHMoXFxlblxcKSkgJT4lXG4gIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4jIERpc3BsYXkgbmV3IHRvcCB3b3JkcyAobW9zdCBmcmVxdWVudCB3b3JkcylcbnRvcGZlYXR1cmVzKGRmbV90ZXh0X2NsbilcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+# Custom words to do not include
 custom_stopwords = c(
-  &quot;will&quot;, &quot;u&quot;, &quot;s&quot;, &quot;said&quot;, &quot;new&quot;, &quot;space&quot;)
+  \will\, \u\, \s\, \said\, \new\, \space\)
 
 # Delete stopwords of the DFM and non-useful words
-dfm_text_cln &lt;- dfm_remove(dfm_text_cln, stopwords(&quot;en&quot;)) %&gt;%
+dfm_text_cln &lt;- dfm_remove(dfm_text_cln, stopwords(\en\)) %&gt;%
   dfm_remove(pattern = custom_stopwords, valuetype=c(&#39;fixed&#39;))
 
 # Display new top words (most frequent words)
 topfeatures(dfm_text_cln)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgIGxhdW5jaCAgc2F0ZWxsaXRlICAgICAgIG5hc2Egc2F0ZWxsaXRlcyAgICBjb21wYW55ICAgICAgZm9yY2UgY29tbWVyY2lhbCAgICBtaXNzaW9uICAgICAgIHllYXIgICAgbWlsbGlvbiBcbiAgICAgNjYyODMgICAgICA2MDk5MCAgICAgIDUyNTI1ICAgICAgNDE1ODEgICAgICAzMjA0MiAgICAgIDI5MjUzICAgICAgMjg5MTYgICAgICAyODU4NyAgICAgIDI3NzUzICAgICAgMjUxNjIgXG4ifQ== -->
-<pre><code>    launch  satellite       nasa satellites    company      force commercial    mission       year    million 
-     66283      60990      52525      41581      32042      29253      28916      28587      27753      25162 </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEaXNwbGF5IGxlYXN0IGZyZXF1ZW50IHdvcmRzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4sIGRlY3JlYXNpbmcgPSBGQUxTRSlcbmBgYCJ9 -->
-<pre class="r"><code># Display least frequent words
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgIGxhdW5jaCAgc2F0ZWxsaXRlICAgICAgIG5hc2Egc2F0ZWxsaXRlcyAgICBjb21wYW55ICAgICAgZm9yY2UgY29tbWVyY2lhbCAgICBtaXNzaW9uICAgICAgIHllYXIgICAgbWlsbGlvbiBcbiAgICAgNjYyODMgICAgICA2MDk5MCAgICAgIDUyNTI1ICAgICAgNDE1ODEgICAgICAzMjA0MiAgICAgIDI5MjUzICAgICAgMjg5MTYgICAgICAyODU4NyAgICAgIDI3NzUzICAgICAgMjUxNjIgXG4ifQ== --&gt;
+</code></pre>
+<pre><code>launch  satellite       nasa satellites    company      force commercial    mission       year    million 
+ 66283      60990      52525      41581      32042      29253      28916      28587      27753      25162 </code></pre>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBEaXNwbGF5IGxlYXN0IGZyZXF1ZW50IHdvcmRzXG50b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4sIGRlY3JlYXNpbmcgPSBGQUxTRSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+# Display least frequent words
 topfeatures(dfm_text_cln, decreasing = FALSE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICBmYXRpbWEgIGNsaXF1ZXMgIHN0b2tpbmcgICBqYWFra28gICBtZWxvbmUgICAgIHRoYXIgIHNlYWZvb2QgICAgIGlwZ3AgICAgICBjaXQgZ2FtYWxpZWwgXG4gICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSBcbiJ9 -->
-<pre><code>  fatima  cliques  stoking   jaakko   melone     thar  seafood     ipgp      cit gamaliel 
-       1        1        1        1        1        1        1        1        1        1 </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>The keywords of all the articles are quite expected (<em>space</em>,
-<em>launch</em>, <em>mission</em>, etc.), since their related to space
-topics, but we need the keywords of each article.</p>
-<p>To find out the keywords of each article, we could use the
-<strong>T</strong>erm <strong>F</strong>requency, but this does not find
-the most relevant words just the most frequent, so we’ll use compute the
-<strong>I</strong>nverse <strong>D</strong>ocument
-<strong>F</strong>requency, that is the frequency of each token on all
-articles.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBZGQga2V5d29yZHMgdG8gdGhlIGRhdGEgc2V0XG5mb3IgKGkgaW4gMTpsZW5ndGgodGV4dF9jbG5fY29ycHVzKSkge1xuICBkZm1fYXJ0aWNsZSA8LSBkZm0odG9rZW5zKHRleHRfY2xuX2NvcnB1c1tpXSkpICU+JVxuICAgIGRmbV9yZW1vdmUoc3RvcHdvcmRzKFwiZW5cIikpICU+JVxuICAgIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4gIGRhdGEka2V5d29yZHNbaV0gPC0gZGZtX3RmaWRmKGRmbV9hcnRpY2xlLCBzY2hlbWVfdGYgPSBcInByb3BcIikgJT4lXG4gICAgdG9wZmVhdHVyZXMgJT4lIG5hbWVzICU+JSBwYXN0ZShjb2xsYXBzZSA9IFwiIFwiKVxufVxucm0oZGZtX2FydGljbGUpXG5ybShpKVxucm0oY3VzdG9tX3N0b3B3b3JkcylcbiMgRXhhbXBsZSBvZiBrZXl3b3JkcyBvZiBhcnRpY2xlc1xuZGF0YSRrZXl3b3Jkc1sxOjVdXG5gYGAifQ== -->
-<pre class="r"><code># Add keywords to the data set
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiICBmYXRpbWEgIGNsaXF1ZXMgIHN0b2tpbmcgICBqYWFra28gICBtZWxvbmUgICAgIHRoYXIgIHNlYWZvb2QgICAgIGlwZ3AgICAgICBjaXQgZ2FtYWxpZWwgXG4gICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSAgICAgICAgMSBcbiJ9 --&gt;
+</code></pre>
+<p>fatima cliques stoking jaakko melone thar seafood ipgp cit gamaliel 1
+1 1 1 1 1 1 1 1 1</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+The keywords of all the articles are quite expected (*space*, *launch*, *mission*, etc.), since their related to space topics, but we need the keywords of each article.
+
+To find out the keywords of each article, we could use the **T**erm **F**requency, but this does not find the most relevant words just the most frequent, so we&#39;ll use compute the **I**nverse **D**ocument **F**requency, that is the frequency of each token on all articles.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBBZGQga2V5d29yZHMgdG8gdGhlIGRhdGEgc2V0XG5mb3IgKGkgaW4gMTpsZW5ndGgodGV4dF9jbG5fY29ycHVzKSkge1xuICBkZm1fYXJ0aWNsZSA8LSBkZm0odG9rZW5zKHRleHRfY2xuX2NvcnB1c1tpXSkpICU+JVxuICAgIGRmbV9yZW1vdmUoc3RvcHdvcmRzKFxcZW5cXCkpICU+JVxuICAgIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKVxuXG4gIGRhdGEka2V5d29yZHNbaV0gPC0gZGZtX3RmaWRmKGRmbV9hcnRpY2xlLCBzY2hlbWVfdGYgPSBcXHByb3BcXCkgJT4lXG4gICAgdG9wZmVhdHVyZXMgJT4lIG5hbWVzICU+JSBwYXN0ZShjb2xsYXBzZSA9IFxcIFxcKVxufVxucm0oZGZtX2FydGljbGUpXG5ybShpKVxucm0oY3VzdG9tX3N0b3B3b3JkcylcbiMgRXhhbXBsZSBvZiBrZXl3b3JkcyBvZiBhcnRpY2xlc1xuZGF0YSRrZXl3b3Jkc1sxOjVdXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+# Add keywords to the data set
 for (i in 1:length(text_cln_corpus)) {
   dfm_article &lt;- dfm(tokens(text_cln_corpus[i])) %&gt;%
-    dfm_remove(stopwords(&quot;en&quot;)) %&gt;%
+    dfm_remove(stopwords(\en\)) %&gt;%
     dfm_remove(pattern = custom_stopwords, valuetype=c(&#39;fixed&#39;))
 
-  data$keywords[i] &lt;- dfm_tfidf(dfm_article, scheme_tf = &quot;prop&quot;) %&gt;%
-    topfeatures %&gt;% names %&gt;% paste(collapse = &quot; &quot;)
+  data$keywords[i] &lt;- dfm_tfidf(dfm_article, scheme_tf = \prop\) %&gt;%
+    topfeatures %&gt;% names %&gt;% paste(collapse = \ \)
 }
 rm(dfm_article)
 rm(i)
 rm(custom_stopwords)
 # Example of keywords of articles
 data$keywords[1:5]</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYXN0cm9jYXN0IGJ1eWluZyBoaWJlciBib29zdCBmdW5kaW5nIGV4cGFuc2lvbiBwbGFucyB0YW1wYSBmbGEgY2FzaFwiICAgICAgICAgICAgICBcblsyXSBcInNpZXJyYSBwYXJ0bmVyIHNwaXJpdCBhZXJvc3lzdGVtcyBkcmVhbSBjaGFzZXIgY2FyZ28gbW9kdWxlcyB3YXNoaW5ndG9uIGFubm91bmNlZFwiXG5bM10gXCJyb2NrZXQgbGF1bmNoIGNoaW5hIG5leHQgc3RhdGlvbiBtb2R1bGUgYXJyaXZlcyBjZW50ZXIgaGVsc2lua2kgbG9uZ1wiICAgICAgICAgICAgIFxuWzRdIFwicXVhZCBjaGluYSBsYXVuY2hlcyBzYXRlbGxpdGUgYmFzZWQgZWFydGggb2JzZXJ2YXRpb24gaW5pdGlhdGl2ZSBicmljcyBuYXRpb25zXCIgICBcbls1XSBcImhvdXNlIGNvbW1pdHRlZSBxdWVzdGlvbnMgcHJvcG9zZWQgZGVsYXkgbmFzYSBhc3Rlcm9pZCBtaXNzaW9uIHdhc2hpbmd0b24gbWVtYmVyc1wiXG4ifQ== -->
-<pre><code>[1] &quot;astrocast buying hiber boost funding expansion plans tampa fla cash&quot;              
-[2] &quot;sierra partner spirit aerosystems dream chaser cargo modules washington announced&quot;
-[3] &quot;rocket launch china next station module arrives center helsinki long&quot;             
-[4] &quot;quad china launches satellite based earth observation initiative brics nations&quot;   
-[5] &quot;house committee questions proposed delay nasa asteroid mission washington members&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>The <strong>TF-IDF</strong> process has come up with the keywords of
-each article, which could be used to classify them and add said words to
-the articles, so the reader is able to identify the topic of the article
-with a couple of words.</p>
-</div>
-<div id="article-classifier" class="section level1">
-<h1>4. Article classifier</h1>
-<p>Since the articles are not classified, and trying to generate the
-topic of the article is not possible since we do not have the articles
-classified to train the model, we will write down the code for a
-<em>Naive Bayes model</em> in case this data set articles are classified
-in the future, allowing the training and testing of the model.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBTYW1wbGUgb3JkZXIgdG8gY2hvb3NlIHRyYWluaW5nIGFuZCB0ZXN0aW5nIGFydGljbGVzXG5pbmRleF90cmFpbiA8LSBzYW1wbGUobmRvYyhkZm1fdGV4dF9jbG4pLCAwLjc1Km5kb2MoZGZtX3RleHRfY2xuKSlcblxuIyBUcmFpbmluZyBhbmQgVGVzdGluZyBkYXRhc2V0XG5kZm1fdHJhaW4gPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICBpZCAlaW4lIGluZGV4X3RyYWluKVxuZGZtX3Rlc3QgPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICFpZCAlaW4lIGluZGV4X3RyYWluKVxuXG4jIFRyYWluIG1vZGVsXG5uYl9tb2RlbCA8LSB0ZXh0bW9kZWxfbmIoZGZtX3RyYWluaW5nLCBkZm1fdHJhaW5pbmckY2F0ZWdvcnksIGRpc3RyaWJ1dGlvbiA9IFwibXVsdGlub21pYWxcIilcbnN1bW1hcnkobmJfbW9kZWwpXG5cbiMgR2V0IHRlc3QgcmVzdWx0c1xuZGZtX3ByZWRpY3RlZCA8LSBwcmVkaWN0KG5iX21vZGVsLCBuZXdkYXRhID0gZGZtX3Rlc3QpXG5cbiMgQ29uZnVzaW9uIG1hdHJpeFxuY29uZk0gPC0gY29uZnVzaW9uTWF0cml4KGRmbV9wcmVkaWN0ZWQsIGRvY3ZhcnMoZGZtX3Rlc3QpJGNhdGVnb3J5KVxuXG5jb2luY2lkZW5jZXMgPC0gc3VtKGFzLmNoYXJhY3RlcihkZm1fcHJlZGljdGVkKSA9PSBhcy5jaGFyYWN0ZXIoZG9jdmFycyhkZm1fdGVzdCkkY2F0ZWdvcnkpKVxuIyBBY2N1cmFjeSwgcHJlY2lzaW9uIGFuZCByZWNhbGwgb2YgcHJlZGljdGlvblxuYWNjIDwtIGNvaW5jaWRlbmNlcyAvIGxlbmd0aChhcy5jaGFyYWN0ZXIoZGZtX3ByZWRpY3RlZCkpXG5hY2NcblxucHJlIDwtIGNvbmZNJGJ5Q2xhc3NbJ1BvcyBQcmVkIFZhbHVlJ11cbnByZVxucmVjIDwtIGNvbmZNJGJ5Q2xhc3NbJ1NlbnNpdGl2aXR5J11cbnJlY1xubGlzdChhY2MgPSBhY2MsIHAgPSBwcmUsIHI9IHJlYylcbmBgYCJ9 -->
-<pre class="r"><code># Sample order to choose training and testing articles
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcYXN0cm9jYXN0IGJ1eWluZyBoaWJlciBib29zdCBmdW5kaW5nIGV4cGFuc2lvbiBwbGFucyB0YW1wYSBmbGEgY2FzaFxcICAgICAgICAgICAgICBcblsyXSBcXHNpZXJyYSBwYXJ0bmVyIHNwaXJpdCBhZXJvc3lzdGVtcyBkcmVhbSBjaGFzZXIgY2FyZ28gbW9kdWxlcyB3YXNoaW5ndG9uIGFubm91bmNlZFxcXG5bM10gXFxyb2NrZXQgbGF1bmNoIGNoaW5hIG5leHQgc3RhdGlvbiBtb2R1bGUgYXJyaXZlcyBjZW50ZXIgaGVsc2lua2kgbG9uZ1xcICAgICAgICAgICAgIFxuWzRdIFxccXVhZCBjaGluYSBsYXVuY2hlcyBzYXRlbGxpdGUgYmFzZWQgZWFydGggb2JzZXJ2YXRpb24gaW5pdGlhdGl2ZSBicmljcyBuYXRpb25zXFwgICBcbls1XSBcXGhvdXNlIGNvbW1pdHRlZSBxdWVzdGlvbnMgcHJvcG9zZWQgZGVsYXkgbmFzYSBhc3Rlcm9pZCBtaXNzaW9uIHdhc2hpbmd0b24gbWVtYmVyc1xcXG4ifQ== --&gt;
+</code></pre>
+<p>[1] buying hiber boost funding expansion plans tampa fla cash <br />
+[2] partner spirit aerosystems dream chaser cargo modules washington
+announced<br />
+[3] launch china next station module arrives center helsinki long <br />
+[4] china launches satellite based earth observation initiative brics
+nations <br />
+[5] committee questions proposed delay nasa asteroid mission washington
+members<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+The **TF-IDF** process has come up with the keywords of each article, which could be used to classify them and add said words to the articles, so the reader is able to identify the topic of the article with a couple of words.
+
+# 4. Article classifier
+
+Since the articles are not classified, and trying to generate the topic of the article is not possible since we do not have the articles classified to train the model, we will write down the code for a *Naive Bayes model* in case this data set articles are classified in the future, allowing the training and testing of the model.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBTYW1wbGUgb3JkZXIgdG8gY2hvb3NlIHRyYWluaW5nIGFuZCB0ZXN0aW5nIGFydGljbGVzXG5pbmRleF90cmFpbiA8LSBzYW1wbGUobmRvYyhkZm1fdGV4dF9jbG4pLCAwLjc1Km5kb2MoZGZtX3RleHRfY2xuKSlcblxuIyBUcmFpbmluZyBhbmQgVGVzdGluZyBkYXRhc2V0XG5kZm1fdHJhaW4gPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICBpZCAlaW4lIGluZGV4X3RyYWluKVxuZGZtX3Rlc3QgPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICFpZCAlaW4lIGluZGV4X3RyYWluKVxuXG4jIFRyYWluIG1vZGVsXG5uYl9tb2RlbCA8LSB0ZXh0bW9kZWxfbmIoZGZtX3RyYWluaW5nLCBkZm1fdHJhaW5pbmckY2F0ZWdvcnksIGRpc3RyaWJ1dGlvbiA9IFwibXVsdGlub21pYWxcIilcbnN1bW1hcnkobmJfbW9kZWwpXG5cbiMgR2V0IHRlc3QgcmVzdWx0c1xuZGZtX3ByZWRpY3RlZCA8LSBwcmVkaWN0KG5iX21vZGVsLCBuZXdkYXRhID0gZGZtX3Rlc3QpXG5cbiMgQ29uZnVzaW9uIG1hdHJpeFxuY29uZk0gPC0gY29uZnVzaW9uTWF0cml4KGRmbV9wcmVkaWN0ZWQsIGRvY3ZhcnMoZGZtX3Rlc3QpJGNhdGVnb3J5KVxuXG5jb2luY2lkZW5jZXMgPC0gc3VtKGFzLmNoYXJhY3RlcihkZm1fcHJlZGljdGVkKSA9PSBhcy5jaGFyYWN0ZXIoZG9jdmFycyhkZm1fdGVzdCkkY2F0ZWdvcnkpKVxuIyBBY2N1cmFjeSwgcHJlY2lzaW9uIGFuZCByZWNhbGwgb2YgcHJlZGljdGlvblxuYWNjIDwtIGNvaW5jaWRlbmNlcyAvIGxlbmd0aChhcy5jaGFyYWN0ZXIoZGZtX3ByZWRpY3RlZCkpXG5hY2NcblxucHJlIDwtIGNvbmZNJGJ5Q2xhc3NbJ1BvcyBQcmVkIFZhbHVlJ11cbnByZVxucmVjIDwtIGNvbmZNJGJ5Q2xhc3NbJ1NlbnNpdGl2aXR5J11cbnJlY1xubGlzdChhY2MgPSBhY2MsIHAgPSBwcmUsIHI9IHJlYylcbmBgYCJ9 --&gt;
+
+```r
+# Sample order to choose training and testing articles
 index_train &lt;- sample(ndoc(dfm_text_cln), 0.75*ndoc(dfm_text_cln))
 
 # Training and Testing dataset
@@ -2105,7 +2278,7 @@ classification, this is not currently possible.</p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTkxQIERlbGl2ZXJhYmxlIC0gU3BhY2UgTmV3cyBDbGFzc2lmaWVyIgphdXRob3I6ICJDYXJsb3MgTWlndWVsIEFsb25zbyIKZGF0ZTogIjIwLzA2LzIwMjIiCm91dHB1dDoKICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0CiAgaHRtbF9kb2N1bWVudDoKICAgIGRmX3ByaW50OiBwYWdlZAotLS0KCmBgYHtyIGluY2x1ZGUgPSBGQUxTRSwgZWNobyA9IEZBTFNFfQojIGh0dHBzOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tL2xlc3Nvbi0zLmh0bWwKa25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQpgYGAKCiMgMC4gSW50cm9kdWN0aW9uIGFuZCBQcm9ibGVtIGRlc2NyaXB0aW9uCgpJbiBtb2Rlcm4gdGltZXMsIHdlIGRvIHJlYWQgbmV3cywgbm90IG9uIG5ld3NwYXBlcnMsIGJ1dCBvbiB3ZWJzaXRlcywgYW5kIHRoaXMgd2Vic2l0ZXMgbWF5IG5vdCBjbGFzc2lmeSBpdHMgYXJ0aWNsZXMsIG1ha2luZyByZWFkaW5nIGFydGljbGVzIGFib3V0IGNlcnRhaW4gdG9waWNzIGhhcmRlciB0aGFuIGlmIHRoZXkgYXJlIHByb3Blcmx5IGNsYXNzaWZpZWQgYnkgdGhlaXIgY29udGVudHMuIFRoaXMgY291bGQgYmUgZG9uZSB0aHJvdWdoIHRleHQgcHJvY2Vzc2luZywgdXNpbmcgYW4gTkxQIHRyYWluZWQgbW9kZWwgdG8gY2xhc3NpZnkgdGhlIGFydGljbGVzIGFuZCBhc3NpZ24gdGhlbSB0byBhIGNlcnRhaW4gdG9waWMuCgpUbyBhY2hpZXZlIHRoaXMsIHdlIGhhdmUgdXNlZCB0aGUgW1NwYWNlIE5ld3MgZGF0YXNldF0oaHR0cHM6Ly93d3cua2FnZ2xlLmNvbS9kYXRhc2V0cy9wYXRyaWNrZmxlaXRoL3NwYWNlLW5ld3MtZGF0YXNldCkgdGhhdCBjb250YWlucyBtb3JlIHRoYW4gMTcuMDAgYXJ0aWNsZXMgcmVsYXRlZCB0byB0aGUgc3BhY2UgaW5kdXN0cnkgY292ZXJpbmcgbmV3cywgY29tbWVyY2lhbCwgY2l2aWwsIGxhdW5jaGVzLCBtaWxpdGFyeSwgYW5kIGFsc28gb3BpbmlvbiBhcnRpY2xlcy4KCmBgYHtiYXNoIGdldCBjc3YsIHdhcm5pbmcgPSBGQUxTRX0KIyBVbnppcHBpbmcgdGhlIGRhdGEgc2V0CnVuemlwIC1uIGFyY2hpdmUuemlwCmBgYAoKIyAxLiBMaWJyYXJpZXMKCkZpcnN0IG9mIGFsbCwgd2UgaGF2ZSB0byBpbXBvcnQgdGhlIGxpYnJhcmllcyB1c2VkLiBUaGV5IG11c3QgYmUgaW5zdGFsbGVkIG15IGhhbmQsIHdpdGggYGluc3RhbGwucGFja2FnZXNgLgoKYGBge3Igd2FybmluZyA9IEZBTFNFLCBlY2hvID0gRkFMU0V9CmxpYnJhcnkodXRmOCkKbGlicmFyeSh0bSkKbGlicmFyeShzcGFjeXIpCnNwYWN5X2luaXRpYWxpemUoKQpsaWJyYXJ5KHF1YW50ZWRhKQojbGlicmFyeShxdWFudGVkYS50ZXh0bW9kZWxzKQojbGlicmFyeShjYXJldCkKCmBgYAoKIyAyLiBSZWFkaW5nIGFuZCBjbGVhbmluZyB0aGUgZGF0YQoKVGhlIGZpcnN0IHRoaW5nIHRvIGRvLCBvZiBjb3Vyc2UsIGlzIHJlYWQgdGhlIGRhdGE6CgpgYGB7ciByZWFkIGRhdGF9CiMgUmVhZCBhbmQgc2V0IENXRApzZXR3ZChkaXJuYW1lKHJzdHVkaW9hcGk6OmdldEFjdGl2ZURvY3VtZW50Q29udGV4dCgpJHBhdGgpKQpvZ19kYXRhIDwtIHJlYWQuY3N2KCJzcGFjZW5ld3MuY3N2IiwgaGVhZGVyID0gVFJVRSwgc2VwID0gJywnKQpgYGAKClRoZSBkYXRhIHNldCBpcyBjb21wb3NlZCBvZiA2IGNvbHVtbnMgKGB0aXRsZWAsIGB1cmxgLCBgY29udGVudGAsIGBhdXRob3JgLCBgZGF0ZWAsIGBwb3N0ZXhjZXJwdGApLCBidXQgd2UgZG8gbm90IG5lZWQgYWxsIG9mIHRoZW0sIHNvIHdlIGdldCByaWQgb2YgdGhlIGB1cmxgLCBgYXV0aG9yYCBhbmQgYGRhdGVgLCBrZWVwaW5nIG9ubHkgdGhlIGNvbHVtbnMgYHRpdGxlYCwgYGNvbnRlbnRgIGFuZCBgcG9zdGV4Y2VycHRgLiBUaGUgYHBvc3RleGNlcnB0YCBpcyBhIHNtYWxsIGRlc2NyaXB0aW9uIG9mIHRoZSBhcnRpY2xlLCBsaWtlIGFuIGFic3RyYWN0LgoKYGBge3IgY2xlYW4gZGF0YX0KZGF0YSA8LSBzdWJzZXQob2dfZGF0YSwgc2VsZWN0ID0gYyh0aXRsZSwgY29udGVudCwgcG9zdGV4Y2VycHQpKQpybShvZ19kYXRhKQpgYGAKCk5vdyB0aGF0IHdlIGRvIGhhdmUgdGhlIGRhdGEgc2V0IHdlIGFyZSBnb2luZyB0byB1c2UsIHdlIG11c3QgY2hlY2sgdGhlcmUgYXJlIG5vIGJhZCBvciBtaXNzaW5nIHZhbHVlcy4KCmBgYHtyIGJhc2ljIGNoZWNrc30Kd2hpY2goaXMubmEoZGF0YSkpICMgRXhwZWVjdGVkOiBpbnRlZ2VyKDApCmBgYAoKV2l0aCBubyBtaXNzaW5nIGRhdGEsIHdlIGFsc28gY2hlY2sgdGhlIHRleHQgZW5jb2RpbmcgYW5kIG5vcm1hbGl6YXRpb24gb2YgZWFjaCBhcnRpY2xlOgoKYGBge3IgZW5jb2RpbmcgYW5kIE5GQ30KIyBFbmNvZGluZwpzdW0oZGF0YVshdXRmOF92YWxpZChkYXRhJHRpdGxlKV0pICMgRXhwZWN0ZWQ6IDAKc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRjb250ZW50KV0pICMgRXhwZWN0ZWQ6IDAKc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSRwb3N0ZXhjZXJwdCldKSAjIEV4cGVjdGVkOiAwCgojIE5vcm1hbGl6YXRpb24KdGl0bGVfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkdGl0bGUpCnN1bSh0aXRsZV9ORkMgIT0gZGF0YSR0aXRsZSkgIyBFeHBlY3RlZDogMApkZXNjcl9ORkMgPC0gdXRmOF9ub3JtYWxpemUoZGF0YSRjb250ZW50KQpzdW0oZGVzY3JfTkZDICE9IGRhdGEkZGVzY3JpcHRpb24pICMgRVhwZWN0ZWQ6IDAKcG9zdGVfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudCkKc3VtKHBvc3RlX05GQyAhPSBkYXRhJGRlc2NyaXB0aW9uKSAjIEVYcGVjdGVkOiAwCgojIERlbGV0ZSBkYXRhIHRvIHJlbGVhc2UgbWVtb3J5CnJtKHRpdGxlX05GQykKcm0oZGVzY3JfTkZDKQpybShwb3N0ZV9ORkMpCmBgYAoKTm93IHRoYXQgd2Uga25vdyB0aGUgdGV4dCBpcyBwcm9wZXJseSBlbmNvZGVkIGFuZCBub3JtYWxpemVkLCB3ZSBjcmVhdGUgYSBzaW5nbGUgc3RyaW5nIGZvciBlYWNoIGFydGljbGUgdGhhdCBpbmNsdWRlcyBgdGl0bGVgLCBgY29udGVudGAgYW5kIGBwb3N0ZXhjZXJwdGAsIGFuZCB0aGVuIHN0cmlwIHRoZSBleHRyYSB3aGl0ZSBzcGFjZXMsIHRhYnMsIGV0Yy4KCmBgYHtyIGJpZyBzdHJpbmcgYW5kIGNsZWFuaW5nfQojIFNpbmdsZSBsaW5lIHBlciBhcnRpY2xlCnRleHQgPC0gcGFzdGUoZGF0YSR0aXRsZSwgZGF0YSRjb250ZW50LCBkYXRhJHBvc3RleGNlcnB0LCBzZXAgPSAiICIpCgojIFJlbW92ZSBleHRyYSBzcGFjZXMsIHB1bmN0dWF0aW9uIHN5bWJvbHMsIGV0Yy4KdGV4dF9jbG4gPC0gZ3N1YigiW15hLXpBLVowLTldIiwgIiAiLCB0ZXh0KQp0ZXh0X2NsbiA8LSBnc3ViKCJbIF17Mix9IiwgIiAiLCB0ZXh0X2NsbikKdGV4dF9jbG4gPC0gZ3N1YigiKFxcZHxcXFcpKyIsICIgIiwgdGV4dF9jbG4pCgojIEFsbCBsb3dlciBjYXNlCnRleHRfY2xuIDwtIHRvbG93ZXIodGV4dF9jbG4pCgpybSh0ZXh0KQpgYGAKCiMgMy4gS2V5d29yZHMKClRvIGdldCB0aGUga2V5d29yZHMgb2YgdGhlIGFydGljbGVzLCB3ZSB1c2UgYHF1YW50ZWRhYCB0byBhbmFseXNlIHRoZSB0ZXh0IHRvIGdldCB0aGlzIHdvcmRzLCB0aGF0IG1pZ2h0IGJlIGVzc2VudGlhbCB0byBjbGFzc2lmeSBlYWNoIGFydGljbGUuCgpgYGB7ciBnZXQgcmVhZHkgZm9yIGtleXdvcmRzfQojIE5hbWUgdGhlIHJvd3MgdG8gZGlmZmVyZW50aWF0ZSB0aGVtCm5hbWVzKHRleHRfY2xuKSA8LSBwYXN0ZSgiQXJ0LiIsIDE6bGVuZ3RoKHRleHRfY2xuKSkKCiMgQ3JlYXRlIGNvcnB1cwp0ZXh0X2Nsbl9jb3JwdXMgPC0gY29ycHVzKHRleHRfY2xuKQoKIyBDcmVhdGUgZG9jdmFyCmRvY3ZhcnModGV4dF9jbG5fY29ycHVzLCBmaWVsZCA9ICJBcnRpY2xlIikgPC0gMTpsZW5ndGgodGV4dF9jbG4pCgojIEV4YW1wbGUgb2YgdGhlIGNvcnB1cwp0ZXh0X2Nsbl9jb3JwdXMKCiMgQ3JlYXRlIERGTSB3aXRoIHRva2VucwpkZm1fdGV4dF9jbG4gPC0gZGZtKHRva2Vucyh0ZXh0X2Nsbl9jb3JwdXMpKQoKIyBEaXNwbGF5IHRvcCBmZWF0dXJlcwp0b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4pCmBgYApXZSBjYW4gc2VlIHRoYXQgdGhlIHRvcCBmZWF0dXJlcy90b2tlbnMgYXJlLCBtb3N0bHksIGNvbm5lY3RvcnMsIHNvIHdlIG11c3QgZ2V0IHJpZCBvZiB0aGVtIHRvbyB0byBnZXQgdGhlIHJlYWwga2V5d29yZHMgb2YgdGhlIGFydGljbGVzLgoKYGBge3Iga2V5d29yZHN9CiMgQ3VzdG9tIHdvcmRzIHRvIGRvIG5vdCBpbmNsdWRlCmN1c3RvbV9zdG9wd29yZHMgPSBjKAogICJ3aWxsIiwgInUiLCAicyIsICJzYWlkIiwgIm5ldyIsICJzcGFjZSIpCgojIERlbGV0ZSBzdG9wd29yZHMgb2YgdGhlIERGTSBhbmQgbm9uLXVzZWZ1bCB3b3JkcwpkZm1fdGV4dF9jbG4gPC0gZGZtX3JlbW92ZShkZm1fdGV4dF9jbG4sIHN0b3B3b3JkcygiZW4iKSkgJT4lCiAgZGZtX3JlbW92ZShwYXR0ZXJuID0gY3VzdG9tX3N0b3B3b3JkcywgdmFsdWV0eXBlPWMoJ2ZpeGVkJykpCgojIERpc3BsYXkgbmV3IHRvcCB3b3JkcyAobW9zdCBmcmVxdWVudCB3b3JkcykKdG9wZmVhdHVyZXMoZGZtX3RleHRfY2xuKQoKIyBEaXNwbGF5IGxlYXN0IGZyZXF1ZW50IHdvcmRzCnRvcGZlYXR1cmVzKGRmbV90ZXh0X2NsbiwgZGVjcmVhc2luZyA9IEZBTFNFKQpgYGAKVGhlIGtleXdvcmRzIG9mIGFsbCB0aGUgYXJ0aWNsZXMgYXJlIHF1aXRlIGV4cGVjdGVkICgqc3BhY2UqLCAqbGF1bmNoKiwgKm1pc3Npb24qLCBldGMuKSwgc2luY2UgdGhlaXIgcmVsYXRlZCB0byBzcGFjZSB0b3BpY3MsIGJ1dCB3ZSBuZWVkIHRoZSBrZXl3b3JkcyBvZiBlYWNoIGFydGljbGUuCgpUbyBmaW5kIG91dCB0aGUga2V5d29yZHMgb2YgZWFjaCBhcnRpY2xlLCB3ZSBjb3VsZCB1c2UgdGhlICoqVCoqZXJtICoqRioqcmVxdWVuY3ksIGJ1dCB0aGlzIGRvZXMgbm90IGZpbmQgdGhlIG1vc3QgcmVsZXZhbnQgd29yZHMganVzdCB0aGUgbW9zdCBmcmVxdWVudCwgc28gd2UnbGwgdXNlIGNvbXB1dGUgdGhlICoqSSoqbnZlcnNlICoqRCoqb2N1bWVudCAqKkYqKnJlcXVlbmN5LCB0aGF0IGlzIHRoZSBmcmVxdWVuY3kgb2YgZWFjaCB0b2tlbiBvbiBhbGwgYXJ0aWNsZXMuCgpgYGB7ciBrZXl3b3JkcyBvZiBlYWNoIGFydGljbGV9CiMgQWRkIGtleXdvcmRzIHRvIHRoZSBkYXRhIHNldApmb3IgKGkgaW4gMTpsZW5ndGgodGV4dF9jbG5fY29ycHVzKSkgewogIGRmbV9hcnRpY2xlIDwtIGRmbSh0b2tlbnModGV4dF9jbG5fY29ycHVzW2ldKSkgJT4lCiAgICBkZm1fcmVtb3ZlKHN0b3B3b3JkcygiZW4iKSkgJT4lCiAgICBkZm1fcmVtb3ZlKHBhdHRlcm4gPSBjdXN0b21fc3RvcHdvcmRzLCB2YWx1ZXR5cGU9YygnZml4ZWQnKSkKCiAgZGF0YSRrZXl3b3Jkc1tpXSA8LSBkZm1fdGZpZGYoZGZtX2FydGljbGUsIHNjaGVtZV90ZiA9ICJwcm9wIikgJT4lCiAgICB0b3BmZWF0dXJlcyAlPiUgbmFtZXMgJT4lIHBhc3RlKGNvbGxhcHNlID0gIiAiKQp9CnJtKGRmbV9hcnRpY2xlKQpybShpKQpybShjdXN0b21fc3RvcHdvcmRzKQojIEV4YW1wbGUgb2Yga2V5d29yZHMgb2YgYXJ0aWNsZXMKZGF0YSRrZXl3b3Jkc1sxOjVdCmBgYApgYGB7ciBmcmVlIHJlc291cmNlcywgaW5jbHVkZSA9IEZBTFNFfQpzcGFjeV9maW5hbGl6ZSgpCmBgYAoKVGhlICoqVEYtSURGKiogcHJvY2VzcyBoYXMgY29tZSB1cCB3aXRoIHRoZSBrZXl3b3JkcyBvZiBlYWNoIGFydGljbGUsIHdoaWNoIGNvdWxkIGJlIHVzZWQgdG8gY2xhc3NpZnkgdGhlbSBhbmQgYWRkIHNhaWQgd29yZHMgdG8gdGhlIGFydGljbGVzLCBzbyB0aGUgcmVhZGVyIGlzIGFibGUgdG8gaWRlbnRpZnkgdGhlIHRvcGljIG9mIHRoZSBhcnRpY2xlIHdpdGggYSBjb3VwbGUgb2Ygd29yZHMuCgojIDQuIEFydGljbGUgY2xhc3NpZmllcgoKU2luY2UgdGhlIGFydGljbGVzIGFyZSBub3QgY2xhc3NpZmllZCwgYW5kIHRyeWluZyB0byBnZW5lcmF0ZSB0aGUgdG9waWMgb2YgdGhlIGFydGljbGUgaXMgbm90IHBvc3NpYmxlIHNpbmNlIHdlIGRvIG5vdCBoYXZlIHRoZSBhcnRpY2xlcyBjbGFzc2lmaWVkIHRvIHRyYWluIHRoZSBtb2RlbCwgd2Ugd2lsbCB3cml0ZSBkb3duIHRoZSBjb2RlIGZvciBhICpOYWl2ZSBCYXllcyBtb2RlbCogaW4gY2FzZSB0aGlzIGRhdGEgc2V0IGFydGljbGVzIGFyZSBjbGFzc2lmaWVkIGluIHRoZSBmdXR1cmUsIGFsbG93aW5nIHRoZSB0cmFpbmluZyBhbmQgdGVzdGluZyBvZiB0aGUgbW9kZWwuCgpgYGB7ciBuYWl2ZSBiYXllcyBtb2RlbH0KIyBTYW1wbGUgb3JkZXIgdG8gY2hvb3NlIHRyYWluaW5nIGFuZCB0ZXN0aW5nIGFydGljbGVzCmluZGV4X3RyYWluIDwtIHNhbXBsZShuZG9jKGRmbV90ZXh0X2NsbiksIDAuNzUqbmRvYyhkZm1fdGV4dF9jbG4pKQoKIyBUcmFpbmluZyBhbmQgVGVzdGluZyBkYXRhc2V0CmRmbV90cmFpbiA8LSBkZm1fc3Vic2V0KGRmbV90ZXh0X2NsbiwgIGlkICVpbiUgaW5kZXhfdHJhaW4pCmRmbV90ZXN0IDwtIGRmbV9zdWJzZXQoZGZtX3RleHRfY2xuLCAhaWQgJWluJSBpbmRleF90cmFpbikKCiMgVHJhaW4gbW9kZWwKbmJfbW9kZWwgPC0gdGV4dG1vZGVsX25iKGRmbV90cmFpbmluZywgZGZtX3RyYWluaW5nJGNhdGVnb3J5LCBkaXN0cmlidXRpb24gPSAibXVsdGlub21pYWwiKQpzdW1tYXJ5KG5iX21vZGVsKQoKIyBHZXQgdGVzdCByZXN1bHRzCmRmbV9wcmVkaWN0ZWQgPC0gcHJlZGljdChuYl9tb2RlbCwgbmV3ZGF0YSA9IGRmbV90ZXN0KQoKIyBDb25mdXNpb24gbWF0cml4CmNvbmZNIDwtIGNvbmZ1c2lvbk1hdHJpeChkZm1fcHJlZGljdGVkLCBkb2N2YXJzKGRmbV90ZXN0KSRjYXRlZ29yeSkKCmNvaW5jaWRlbmNlcyA8LSBzdW0oYXMuY2hhcmFjdGVyKGRmbV9wcmVkaWN0ZWQpID09IGFzLmNoYXJhY3Rlcihkb2N2YXJzKGRmbV90ZXN0KSRjYXRlZ29yeSkpCiMgQWNjdXJhY3ksIHByZWNpc2lvbiBhbmQgcmVjYWxsIG9mIHByZWRpY3Rpb24KYWNjIDwtIGNvaW5jaWRlbmNlcyAvIGxlbmd0aChhcy5jaGFyYWN0ZXIoZGZtX3ByZWRpY3RlZCkpCmFjYwoKcHJlIDwtIGNvbmZNJGJ5Q2xhc3NbJ1BvcyBQcmVkIFZhbHVlJ10KcHJlCnJlYyA8LSBjb25mTSRieUNsYXNzWydTZW5zaXRpdml0eSddCnJlYwpsaXN0KGFjYyA9IGFjYywgcCA9IHByZSwgcj0gcmVjKQpgYGAKCiMgNS4gUmVzdWx0cyBhbmQgQ29uY2x1c2lvbnMKClRocm91Z2ggdGhlIHVzZSBvZiAqKlQqKmVybSAqKkYqKnJlcXVlbmN5IGFuZCAqKkkqKm52ZXJzZSAqKkQqKm9jdW1lbnQgKipGKipyZXF1ZW5jeSwgd2UgaGF2ZSBiZWVuIGFibGUgdG8gZ2V0IGEgbGlzdCBvZiB0aGUga2V5d29yZHMgb2YgZWFjaCBhcnRpY2xlLCB0aGF0IGNvdWxkIGJlIGluY2x1ZGVkIG9uIGl0LCBnaXZpbmcgdGhlIHJlYWRlciBhIGJyaWVmIGRlc2NyaXB0aW9uIG9mIHRoZSBjb250ZW50cyBvZiB0aGUgYXJ0aWNsZXMuCgpJZiB3ZSB3ZXJlIGFibGUgdG8gZ2V0IHRoZSBhcnRpY2xlcyBjbGFzc2lmaWVkLCBvciBhdCBsZWFzdCBhIHNtYWxsIHBvcnRpb24gb2YgdGhlbSwgYmlnIGVub3VnaCB0byB0cmFpbiBhbmQgdGVzdCB0aGUgbW9kZWwsIHdlIHdvdWxkIGJlIGFibGUgdG8gcHJvdmUgaWYgYSAqTmFpdmUgQmF5ZXMqIG1vZGVsIGlzIGNhcGFibGUgb2YgY2xhc3NpZnlpbmcgdGhlIGFydGljbGVzIGJhc2VkIG9uIHRoZWlyIGNvbnRlbnQsIGJ1dCBzaW5jZSB3ZSBsYWNrIHRoaXMgYXJ0aWNsZSBjbGFzc2lmaWNhdGlvbiwgdGhpcyBpcyBub3QgY3VycmVudGx5IHBvc3NpYmxlLiAK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTkxQIERlbGl2ZXJhYmxlIC0gU3BhY2UgTmV3cyBDbGFzc2lmaWVyIgphdXRob3I6ICJDYXJsb3MgTWlndWVsIEFsb25zbyIKZGF0ZTogIjIwLzA2LzIwMjIiCm91dHB1dDoKICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0CiAgaHRtbF9kb2N1bWVudDoKICAgIGRmX3ByaW50OiBwYWdlZAotLS0KCmBgYHtyIGluY2x1ZGUgPSBGQUxTRSwgZWNobyA9IEZBTFNFfQojIGh0dHBzOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tL2xlc3Nvbi0zLmh0bWwKa25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQpgYGAKCiMgMC4gSW50cm9kdWN0aW9uIGFuZCBQcm9ibGVtIGRlc2NyaXB0aW9uCgpJbiBtb2Rlcm4gdGltZXMsIHdlIGRvIHJlYWQgbmV3cywgbm90IG9uIG5ld3NwYXBlcnMsIGJ1dCBvbiB3ZWJzaXRlcywgYW5kIHRoaXMgd2Vic2l0ZXMgbWF5IG5vdCBjbGFzc2lmeSBpdHMgYXJ0aWNsZXMsIG1ha2luZyByZWFkaW5nIGFydGljbGVzIGFib3V0IGNlcnRhaW4gdG9waWNzIGhhcmRlciB0aGFuIGlmIHRoZXkgYXJlIHByb3Blcmx5IGNsYXNzaWZpZWQgYnkgdGhlaXIgY29udGVudHMuIFRoaXMgY291bGQgYmUgZG9uZSB0aHJvdWdoIHRleHQgcHJvY2Vzc2luZywgdXNpbmcgYW4gTkxQIHRyYWluZWQgbW9kZWwgdG8gY2xhc3NpZnkgdGhlIGFydGljbGVzIGFuZCBhc3NpZ24gdGhlbSB0byBhIGNlcnRhaW4gdG9waWMuCgpUbyBhY2hpZXZlIHRoaXMsIHdlIGhhdmUgdXNlZCB0aGUgW1NwYWNlIE5ld3MgZGF0YXNldF0oaHR0cHM6Ly93d3cua2FnZ2xlLmNvbS9kYXRhc2V0cy9wYXRyaWNrZmxlaXRoL3NwYWNlLW5ld3MtZGF0YXNldCkgdGhhdCBjb250YWlucyBtb3JlIHRoYW4gMTcuMDAwIGFydGljbGVzIHJlbGF0ZWQgdG8gdGhlIHNwYWNlIGluZHVzdHJ5IGNvdmVyaW5nIG5ld3MsIGNvbW1lcmNpYWwsIGNpdmlsLCBsYXVuY2hlcywgbWlsaXRhcnksIGFuZCBhbHNvIG9waW5pb24gYXJ0aWNsZXMuCgpgYGB7YmFzaCBnZXQgY3N2LCB3YXJuaW5nID0gRkFMU0V9CiMgVW56aXBwaW5nIHRoZSBkYXRhIHNldAp1bnppcCAtbiBhcmNoaXZlLnppcApgYGAKCiMgMS4gTGlicmFyaWVzCgpGaXJzdCBvZiBhbGwsIHdlIGhhdmUgdG8gaW1wb3J0IHRoZSBsaWJyYXJpZXMgdXNlZC4gVGhleSBtdXN0IGJlIGluc3RhbGxlZCBteSBoYW5kLCB3aXRoIGBpbnN0YWxsLnBhY2thZ2VzYC4KCmBgYHtyIHdhcm5pbmcgPSBGQUxTRSwgZWNobyA9IEZBTFNFfQpsaWJyYXJ5KHV0ZjgpCmxpYnJhcnkodG0pCmxpYnJhcnkoc3BhY3lyKQpzcGFjeV9pbml0aWFsaXplKCkKbGlicmFyeShxdWFudGVkYSkKI2xpYnJhcnkocXVhbnRlZGEudGV4dG1vZGVscykKI2xpYnJhcnkoY2FyZXQpCgpgYGAKCiMgMi4gUmVhZGluZyBhbmQgY2xlYW5pbmcgdGhlIGRhdGEKClRoZSBmaXJzdCB0aGluZyB0byBkbywgb2YgY291cnNlLCBpcyByZWFkIHRoZSBkYXRhOgoKYGBge3IgcmVhZCBkYXRhfQojIFJlYWQgYW5kIHNldCBDV0QKc2V0d2QoZGlybmFtZShyc3R1ZGlvYXBpOjpnZXRBY3RpdmVEb2N1bWVudENvbnRleHQoKSRwYXRoKSkKb2dfZGF0YSA8LSByZWFkLmNzdigic3BhY2VuZXdzLmNzdiIsIGhlYWRlciA9IFRSVUUsIHNlcCA9ICcsJykKYGBgCgpUaGUgZGF0YSBzZXQgaXMgY29tcG9zZWQgb2YgNiBjb2x1bW5zIChgdGl0bGVgLCBgdXJsYCwgYGNvbnRlbnRgLCBgYXV0aG9yYCwgYGRhdGVgLCBgcG9zdGV4Y2VycHRgKSwgYnV0IHdlIGRvIG5vdCBuZWVkIGFsbCBvZiB0aGVtLCBzbyB3ZSBnZXQgcmlkIG9mIHRoZSBgdXJsYCwgYGF1dGhvcmAgYW5kIGBkYXRlYCwga2VlcGluZyBvbmx5IHRoZSBjb2x1bW5zIGB0aXRsZWAsIGBjb250ZW50YCBhbmQgYHBvc3RleGNlcnB0YC4gVGhlIGBwb3N0ZXhjZXJwdGAgaXMgYSBzbWFsbCBkZXNjcmlwdGlvbiBvZiB0aGUgYXJ0aWNsZSwgbGlrZSBhbiBhYnN0cmFjdC4KCmBgYHtyIGNsZWFuIGRhdGF9CmRhdGEgPC0gc3Vic2V0KG9nX2RhdGEsIHNlbGVjdCA9IGModGl0bGUsIGNvbnRlbnQsIHBvc3RleGNlcnB0KSkKcm0ob2dfZGF0YSkKYGBgCgpOb3cgdGhhdCB3ZSBkbyBoYXZlIHRoZSBkYXRhIHNldCB3ZSBhcmUgZ29pbmcgdG8gdXNlLCB3ZSBtdXN0IGNoZWNrIHRoZXJlIGFyZSBubyBiYWQgb3IgbWlzc2luZyB2YWx1ZXMuCgpgYGB7ciBiYXNpYyBjaGVja3N9CndoaWNoKGlzLm5hKGRhdGEpKSAjIEV4cGVlY3RlZDogaW50ZWdlcigwKQpgYGAKCldpdGggbm8gbWlzc2luZyBkYXRhLCB3ZSBhbHNvIGNoZWNrIHRoZSB0ZXh0IGVuY29kaW5nIGFuZCBub3JtYWxpemF0aW9uIG9mIGVhY2ggYXJ0aWNsZToKCmBgYHtyIGVuY29kaW5nIGFuZCBORkN9CiMgRW5jb2RpbmcKc3VtKGRhdGFbIXV0ZjhfdmFsaWQoZGF0YSR0aXRsZSldKSAjIEV4cGVjdGVkOiAwCnN1bShkYXRhWyF1dGY4X3ZhbGlkKGRhdGEkY29udGVudCldKSAjIEV4cGVjdGVkOiAwCnN1bShkYXRhWyF1dGY4X3ZhbGlkKGRhdGEkcG9zdGV4Y2VycHQpXSkgIyBFeHBlY3RlZDogMAoKIyBOb3JtYWxpemF0aW9uCnRpdGxlX05GQyA8LSB1dGY4X25vcm1hbGl6ZShkYXRhJHRpdGxlKQpzdW0odGl0bGVfTkZDICE9IGRhdGEkdGl0bGUpICMgRXhwZWN0ZWQ6IDAKZGVzY3JfTkZDIDwtIHV0Zjhfbm9ybWFsaXplKGRhdGEkY29udGVudCkKc3VtKGRlc2NyX05GQyAhPSBkYXRhJGRlc2NyaXB0aW9uKSAjIEVYcGVjdGVkOiAwCnBvc3RlX05GQyA8LSB1dGY4X25vcm1hbGl6ZShkYXRhJGNvbnRlbnQpCnN1bShwb3N0ZV9ORkMgIT0gZGF0YSRkZXNjcmlwdGlvbikgIyBFWHBlY3RlZDogMAoKIyBEZWxldGUgZGF0YSB0byByZWxlYXNlIG1lbW9yeQpybSh0aXRsZV9ORkMpCnJtKGRlc2NyX05GQykKcm0ocG9zdGVfTkZDKQpgYGAKCk5vdyB0aGF0IHdlIGtub3cgdGhlIHRleHQgaXMgcHJvcGVybHkgZW5jb2RlZCBhbmQgbm9ybWFsaXplZCwgd2UgY3JlYXRlIGEgc2luZ2xlIHN0cmluZyBmb3IgZWFjaCBhcnRpY2xlIHRoYXQgaW5jbHVkZXMgYHRpdGxlYCwgYGNvbnRlbnRgIGFuZCBgcG9zdGV4Y2VycHRgLCBhbmQgdGhlbiBzdHJpcCB0aGUgZXh0cmEgd2hpdGUgc3BhY2VzLCB0YWJzLCBldGMuCgpgYGB7ciBiaWcgc3RyaW5nIGFuZCBjbGVhbmluZ30KIyBTaW5nbGUgbGluZSBwZXIgYXJ0aWNsZQp0ZXh0IDwtIHBhc3RlKGRhdGEkdGl0bGUsIGRhdGEkY29udGVudCwgZGF0YSRwb3N0ZXhjZXJwdCwgc2VwID0gIiAiKQoKIyBSZW1vdmUgZXh0cmEgc3BhY2VzLCBwdW5jdHVhdGlvbiBzeW1ib2xzLCBldGMuCnRleHRfY2xuIDwtIGdzdWIoIlteYS16QS1aMC05XSIsICIgIiwgdGV4dCkKdGV4dF9jbG4gPC0gZ3N1YigiWyBdezIsfSIsICIgIiwgdGV4dF9jbG4pCnRleHRfY2xuIDwtIGdzdWIoIihcXGR8XFxXKSsiLCAiICIsIHRleHRfY2xuKQoKIyBBbGwgbG93ZXIgY2FzZQp0ZXh0X2NsbiA8LSB0b2xvd2VyKHRleHRfY2xuKQoKcm0odGV4dCkKYGBgCgojIDMuIEtleXdvcmRzCgpUbyBnZXQgdGhlIGtleXdvcmRzIG9mIHRoZSBhcnRpY2xlcywgd2UgdXNlIGBxdWFudGVkYWAgdG8gYW5hbHlzZSB0aGUgdGV4dCB0byBnZXQgdGhpcyB3b3JkcywgdGhhdCBtaWdodCBiZSBlc3NlbnRpYWwgdG8gY2xhc3NpZnkgZWFjaCBhcnRpY2xlLgoKYGBge3IgZ2V0IHJlYWR5IGZvciBrZXl3b3Jkc30KIyBOYW1lIHRoZSByb3dzIHRvIGRpZmZlcmVudGlhdGUgdGhlbQpuYW1lcyh0ZXh0X2NsbikgPC0gcGFzdGUoIkFydC4iLCAxOmxlbmd0aCh0ZXh0X2NsbikpCgojIENyZWF0ZSBjb3JwdXMKdGV4dF9jbG5fY29ycHVzIDwtIGNvcnB1cyh0ZXh0X2NsbikKCiMgQ3JlYXRlIGRvY3Zhcgpkb2N2YXJzKHRleHRfY2xuX2NvcnB1cywgZmllbGQgPSAiQXJ0aWNsZSIpIDwtIDE6bGVuZ3RoKHRleHRfY2xuKQoKIyBFeGFtcGxlIG9mIHRoZSBjb3JwdXMKdGV4dF9jbG5fY29ycHVzCgojIENyZWF0ZSBERk0gd2l0aCB0b2tlbnMKZGZtX3RleHRfY2xuIDwtIGRmbSh0b2tlbnModGV4dF9jbG5fY29ycHVzKSkKCiMgRGlzcGxheSB0b3AgZmVhdHVyZXMKdG9wZmVhdHVyZXMoZGZtX3RleHRfY2xuKQpgYGAKV2UgY2FuIHNlZSB0aGF0IHRoZSB0b3AgZmVhdHVyZXMvdG9rZW5zIGFyZSwgbW9zdGx5LCBjb25uZWN0b3JzLCBzbyB3ZSBtdXN0IGdldCByaWQgb2YgdGhlbSB0b28gdG8gZ2V0IHRoZSByZWFsIGtleXdvcmRzIG9mIHRoZSBhcnRpY2xlcy4KCmBgYHtyIGtleXdvcmRzfQojIEN1c3RvbSB3b3JkcyB0byBkbyBub3QgaW5jbHVkZQpjdXN0b21fc3RvcHdvcmRzID0gYygKICAid2lsbCIsICJ1IiwgInMiLCAic2FpZCIsICJuZXciLCAic3BhY2UiKQoKIyBEZWxldGUgc3RvcHdvcmRzIG9mIHRoZSBERk0gYW5kIG5vbi11c2VmdWwgd29yZHMKZGZtX3RleHRfY2xuIDwtIGRmbV9yZW1vdmUoZGZtX3RleHRfY2xuLCBzdG9wd29yZHMoImVuIikpICU+JQogIGRmbV9yZW1vdmUocGF0dGVybiA9IGN1c3RvbV9zdG9wd29yZHMsIHZhbHVldHlwZT1jKCdmaXhlZCcpKQoKIyBEaXNwbGF5IG5ldyB0b3Agd29yZHMgKG1vc3QgZnJlcXVlbnQgd29yZHMpCnRvcGZlYXR1cmVzKGRmbV90ZXh0X2NsbikKCiMgRGlzcGxheSBsZWFzdCBmcmVxdWVudCB3b3Jkcwp0b3BmZWF0dXJlcyhkZm1fdGV4dF9jbG4sIGRlY3JlYXNpbmcgPSBGQUxTRSkKYGBgClRoZSBrZXl3b3JkcyBvZiBhbGwgdGhlIGFydGljbGVzIGFyZSBxdWl0ZSBleHBlY3RlZCAoKnNwYWNlKiwgKmxhdW5jaCosICptaXNzaW9uKiwgZXRjLiksIHNpbmNlIHRoZWlyIHJlbGF0ZWQgdG8gc3BhY2UgdG9waWNzLCBidXQgd2UgbmVlZCB0aGUga2V5d29yZHMgb2YgZWFjaCBhcnRpY2xlLgoKVG8gZmluZCBvdXQgdGhlIGtleXdvcmRzIG9mIGVhY2ggYXJ0aWNsZSwgd2UgY291bGQgdXNlIHRoZSAqKlQqKmVybSAqKkYqKnJlcXVlbmN5LCBidXQgdGhpcyBkb2VzIG5vdCBmaW5kIHRoZSBtb3N0IHJlbGV2YW50IHdvcmRzIGp1c3QgdGhlIG1vc3QgZnJlcXVlbnQsIHNvIHdlJ2xsIHVzZSBjb21wdXRlIHRoZSAqKkkqKm52ZXJzZSAqKkQqKm9jdW1lbnQgKipGKipyZXF1ZW5jeSwgdGhhdCBpcyB0aGUgZnJlcXVlbmN5IG9mIGVhY2ggdG9rZW4gb24gYWxsIGFydGljbGVzLgoKYGBge3Iga2V5d29yZHMgb2YgZWFjaCBhcnRpY2xlfQojIEFkZCBrZXl3b3JkcyB0byB0aGUgZGF0YSBzZXQKZm9yIChpIGluIDE6bGVuZ3RoKHRleHRfY2xuX2NvcnB1cykpIHsKICBkZm1fYXJ0aWNsZSA8LSBkZm0odG9rZW5zKHRleHRfY2xuX2NvcnB1c1tpXSkpICU+JQogICAgZGZtX3JlbW92ZShzdG9wd29yZHMoImVuIikpICU+JQogICAgZGZtX3JlbW92ZShwYXR0ZXJuID0gY3VzdG9tX3N0b3B3b3JkcywgdmFsdWV0eXBlPWMoJ2ZpeGVkJykpCgogIGRhdGEka2V5d29yZHNbaV0gPC0gZGZtX3RmaWRmKGRmbV9hcnRpY2xlLCBzY2hlbWVfdGYgPSAicHJvcCIpICU+JQogICAgdG9wZmVhdHVyZXMgJT4lIG5hbWVzICU+JSBwYXN0ZShjb2xsYXBzZSA9ICIgIikKfQpybShkZm1fYXJ0aWNsZSkKcm0oaSkKcm0oY3VzdG9tX3N0b3B3b3JkcykKIyBFeGFtcGxlIG9mIGtleXdvcmRzIG9mIGFydGljbGVzCmRhdGEka2V5d29yZHNbMTo1XQpgYGAKYGBge3IgZnJlZSByZXNvdXJjZXMsIGluY2x1ZGUgPSBGQUxTRX0Kc3BhY3lfZmluYWxpemUoKQpgYGAKClRoZSAqKlRGLUlERioqIHByb2Nlc3MgaGFzIGNvbWUgdXAgd2l0aCB0aGUga2V5d29yZHMgb2YgZWFjaCBhcnRpY2xlLCB3aGljaCBjb3VsZCBiZSB1c2VkIHRvIGNsYXNzaWZ5IHRoZW0gYW5kIGFkZCBzYWlkIHdvcmRzIHRvIHRoZSBhcnRpY2xlcywgc28gdGhlIHJlYWRlciBpcyBhYmxlIHRvIGlkZW50aWZ5IHRoZSB0b3BpYyBvZiB0aGUgYXJ0aWNsZSB3aXRoIGEgY291cGxlIG9mIHdvcmRzLgoKIyA0LiBBcnRpY2xlIGNsYXNzaWZpZXIKClNpbmNlIHRoZSBhcnRpY2xlcyBhcmUgbm90IGNsYXNzaWZpZWQsIGFuZCB0cnlpbmcgdG8gZ2VuZXJhdGUgdGhlIHRvcGljIG9mIHRoZSBhcnRpY2xlIGlzIG5vdCBwb3NzaWJsZSBzaW5jZSB3ZSBkbyBub3QgaGF2ZSB0aGUgYXJ0aWNsZXMgY2xhc3NpZmllZCB0byB0cmFpbiB0aGUgbW9kZWwsIHdlIHdpbGwgd3JpdGUgZG93biB0aGUgY29kZSBmb3IgYSAqTmFpdmUgQmF5ZXMgbW9kZWwqIGluIGNhc2UgdGhpcyBkYXRhIHNldCBhcnRpY2xlcyBhcmUgY2xhc3NpZmllZCBpbiB0aGUgZnV0dXJlLCBhbGxvd2luZyB0aGUgdHJhaW5pbmcgYW5kIHRlc3Rpbmcgb2YgdGhlIG1vZGVsLgoKYGBge3IgbmFpdmUgYmF5ZXMgbW9kZWx9CiMgU2FtcGxlIG9yZGVyIHRvIGNob29zZSB0cmFpbmluZyBhbmQgdGVzdGluZyBhcnRpY2xlcwppbmRleF90cmFpbiA8LSBzYW1wbGUobmRvYyhkZm1fdGV4dF9jbG4pLCAwLjc1Km5kb2MoZGZtX3RleHRfY2xuKSkKCiMgVHJhaW5pbmcgYW5kIFRlc3RpbmcgZGF0YXNldApkZm1fdHJhaW4gPC0gZGZtX3N1YnNldChkZm1fdGV4dF9jbG4sICBpZCAlaW4lIGluZGV4X3RyYWluKQpkZm1fdGVzdCA8LSBkZm1fc3Vic2V0KGRmbV90ZXh0X2NsbiwgIWlkICVpbiUgaW5kZXhfdHJhaW4pCgojIFRyYWluIG1vZGVsCm5iX21vZGVsIDwtIHRleHRtb2RlbF9uYihkZm1fdHJhaW5pbmcsIGRmbV90cmFpbmluZyRjYXRlZ29yeSwgZGlzdHJpYnV0aW9uID0gIm11bHRpbm9taWFsIikKc3VtbWFyeShuYl9tb2RlbCkKCiMgR2V0IHRlc3QgcmVzdWx0cwpkZm1fcHJlZGljdGVkIDwtIHByZWRpY3QobmJfbW9kZWwsIG5ld2RhdGEgPSBkZm1fdGVzdCkKCiMgQ29uZnVzaW9uIG1hdHJpeApjb25mTSA8LSBjb25mdXNpb25NYXRyaXgoZGZtX3ByZWRpY3RlZCwgZG9jdmFycyhkZm1fdGVzdCkkY2F0ZWdvcnkpCgpjb2luY2lkZW5jZXMgPC0gc3VtKGFzLmNoYXJhY3RlcihkZm1fcHJlZGljdGVkKSA9PSBhcy5jaGFyYWN0ZXIoZG9jdmFycyhkZm1fdGVzdCkkY2F0ZWdvcnkpKQojIEFjY3VyYWN5LCBwcmVjaXNpb24gYW5kIHJlY2FsbCBvZiBwcmVkaWN0aW9uCmFjYyA8LSBjb2luY2lkZW5jZXMgLyBsZW5ndGgoYXMuY2hhcmFjdGVyKGRmbV9wcmVkaWN0ZWQpKQphY2MKCnByZSA8LSBjb25mTSRieUNsYXNzWydQb3MgUHJlZCBWYWx1ZSddCnByZQpyZWMgPC0gY29uZk0kYnlDbGFzc1snU2Vuc2l0aXZpdHknXQpyZWMKbGlzdChhY2MgPSBhY2MsIHAgPSBwcmUsIHI9IHJlYykKYGBgCgojIDUuIFJlc3VsdHMgYW5kIENvbmNsdXNpb25zCgpUaHJvdWdoIHRoZSB1c2Ugb2YgKipUKiplcm0gKipGKipyZXF1ZW5jeSBhbmQgKipJKipudmVyc2UgKipEKipvY3VtZW50ICoqRioqcmVxdWVuY3ksIHdlIGhhdmUgYmVlbiBhYmxlIHRvIGdldCBhIGxpc3Qgb2YgdGhlIGtleXdvcmRzIG9mIGVhY2ggYXJ0aWNsZSwgdGhhdCBjb3VsZCBiZSBpbmNsdWRlZCBvbiBpdCwgZ2l2aW5nIHRoZSByZWFkZXIgYSBicmllZiBkZXNjcmlwdGlvbiBvZiB0aGUgY29udGVudHMgb2YgdGhlIGFydGljbGVzLgoKSWYgd2Ugd2VyZSBhYmxlIHRvIGdldCB0aGUgYXJ0aWNsZXMgY2xhc3NpZmllZCwgb3IgYXQgbGVhc3QgYSBzbWFsbCBwb3J0aW9uIG9mIHRoZW0sIGJpZyBlbm91Z2ggdG8gdHJhaW4gYW5kIHRlc3QgdGhlIG1vZGVsLCB3ZSB3b3VsZCBiZSBhYmxlIHRvIHByb3ZlIGlmIGEgKk5haXZlIEJheWVzKiBtb2RlbCBpcyBjYXBhYmxlIG9mIGNsYXNzaWZ5aW5nIHRoZSBhcnRpY2xlcyBiYXNlZCBvbiB0aGVpciBjb250ZW50LCBidXQgc2luY2Ugd2UgbGFjayB0aGlzIGFydGljbGUgY2xhc3NpZmljYXRpb24sIHRoaXMgaXMgbm90IGN1cnJlbnRseSBwb3NzaWJsZS4gCg==</div>
 
 
 
@@ -2152,7 +2325,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("job-classifier.Rmd");
+  window.initializeSourceEmbed("spacenews-classifier.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

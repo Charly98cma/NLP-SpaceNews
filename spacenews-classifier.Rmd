@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In modern times, we do read news, not on newspapers, but on websites, and this websites may not classify its articles, making reading articles about certain topics harder than if they are properly classified by their contents. This could be done through text processing, using an NLP trained model to classify the articles and assign them to a certain topic.
 
-To achieve this, we have used the [Space News dataset](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset) that contains more than 17.00 articles related to the space industry covering news, commercial, civil, launches, military, and also opinion articles.
+To achieve this, we have used the [Space News dataset](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset) that contains more than 17.000 articles related to the space industry covering news, commercial, civil, launches, military, and also opinion articles.
 
 ```{bash get csv, warning = FALSE}
 # Unzipping the data set

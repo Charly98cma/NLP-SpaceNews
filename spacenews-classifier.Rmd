@@ -1,0 +1,209 @@
+---
+title: "NLP Deliverable - Space News Classifier"
+author: "Carlos Miguel Alonso"
+date: "20/06/2022"
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document:
+    df_print: paged
+---
+
+```{r include = FALSE, echo = FALSE}
+# https://rmarkdown.rstudio.com/lesson-3.html
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 0. Introduction and Problem description
+
+In modern times, we do read news, not on newspapers, but on websites, and this websites may not classify its articles, making reading articles about certain topics harder than if they are properly classified by their contents. This could be done through text processing, using an NLP trained model to classify the articles and assign them to a certain topic.
+
+To achieve this, we have used the [Space News dataset](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset) that contains more than 17.00 articles related to the space industry covering news, commercial, civil, launches, military, and also opinion articles.
+
+```{bash get csv, warning = FALSE}
+# Unzipping the data set
+unzip -n archive.zip
+```
+
+# 1. Libraries
+
+First of all, we have to import the libraries used. They must be installed my hand, with `install.packages`.
+
+```{r warning = FALSE, echo = FALSE}
+library(utf8)
+library(tm)
+library(spacyr)
+spacy_initialize()
+library(quanteda)
+#library(quanteda.textmodels)
+#library(caret)
+
+```
+
+# 2. Reading and cleaning the data
+
+The first thing to do, of course, is read the data:
+
+```{r read data}
+# Read and set CWD
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+og_data <- read.csv("spacenews.csv", header = TRUE, sep = ',')
+```
+
+The data set is composed of 6 columns (`title`, `url`, `content`, `author`, `date`, `postexcerpt`), but we do not need all of them, so we get rid of the `url`, `author` and `date`, keeping only the columns `title`, `content` and `postexcerpt`. The `postexcerpt` is a small description of the article, like an abstract.
+
+```{r clean data}
+data <- subset(og_data, select = c(title, content, postexcerpt))
+rm(og_data)
+```
+
+Now that we do have the data set we are going to use, we must check there are no bad or missing values.
+
+```{r basic checks}
+which(is.na(data)) # Expeected: integer(0)
+```
+
+With no missing data, we also check the text encoding and normalization of each article:
+
+```{r encoding and NFC}
+# Encoding
+sum(data[!utf8_valid(data$title)]) # Expected: 0
+sum(data[!utf8_valid(data$content)]) # Expected: 0
+sum(data[!utf8_valid(data$postexcerpt)]) # Expected: 0
+
+# Normalization
+title_NFC <- utf8_normalize(data$title)
+sum(title_NFC != data$title) # Expected: 0
+descr_NFC <- utf8_normalize(data$content)
+sum(descr_NFC != data$description) # EXpected: 0
+poste_NFC <- utf8_normalize(data$content)
+sum(poste_NFC != data$description) # EXpected: 0
+
+# Delete data to release memory
+rm(title_NFC)
+rm(descr_NFC)
+rm(poste_NFC)
+```
+
+Now that we know the text is properly encoded and normalized, we create a single string for each article that includes `title`, `content` and `postexcerpt`, and then strip the extra white spaces, tabs, etc.
+
+```{r big string and cleaning}
+# Single line per article
+text <- paste(data$title, data$content, data$postexcerpt, sep = " ")
+
+# Remove extra spaces, punctuation symbols, etc.
+text_cln <- gsub("[^a-zA-Z0-9]", " ", text)
+text_cln <- gsub("[ ]{2,}", " ", text_cln)
+text_cln <- gsub("(\\d|\\W)+", " ", text_cln)
+
+# All lower case
+text_cln <- tolower(text_cln)
+
+rm(text)
+```
+
+# 3. Keywords
+
+To get the keywords of the articles, we use `quanteda` to analyse the text to get this words, that might be essential to classify each article.
+
+```{r get ready for keywords}
+# Name the rows to differentiate them
+names(text_cln) <- paste("Art.", 1:length(text_cln))
+
+# Create corpus
+text_cln_corpus <- corpus(text_cln)
+
+# Create docvar
+docvars(text_cln_corpus, field = "Article") <- 1:length(text_cln)
+
+# Example of the corpus
+text_cln_corpus
+
+# Create DFM with tokens
+dfm_text_cln <- dfm(tokens(text_cln_corpus))
+
+# Display top features
+topfeatures(dfm_text_cln)
+```
+We can see that the top features/tokens are, mostly, connectors, so we must get rid of them too to get the real keywords of the articles.
+
+```{r keywords}
+# Custom words to do not include
+custom_stopwords = c(
+  "will", "u", "s", "said", "new", "space")
+
+# Delete stopwords of the DFM and non-useful words
+dfm_text_cln <- dfm_remove(dfm_text_cln, stopwords("en")) %>%
+  dfm_remove(pattern = custom_stopwords, valuetype=c('fixed'))
+
+# Display new top words (most frequent words)
+topfeatures(dfm_text_cln)
+
+# Display least frequent words
+topfeatures(dfm_text_cln, decreasing = FALSE)
+```
+The keywords of all the articles are quite expected (*space*, *launch*, *mission*, etc.), since their related to space topics, but we need the keywords of each article.
+
+To find out the keywords of each article, we could use the **T**erm **F**requency, but this does not find the most relevant words just the most frequent, so we'll use compute the **I**nverse **D**ocument **F**requency, that is the frequency of each token on all articles.
+
+```{r keywords of each article}
+# Add keywords to the data set
+for (i in 1:length(text_cln_corpus)) {
+  dfm_article <- dfm(tokens(text_cln_corpus[i])) %>%
+    dfm_remove(stopwords("en")) %>%
+    dfm_remove(pattern = custom_stopwords, valuetype=c('fixed'))
+
+  data$keywords[i] <- dfm_tfidf(dfm_article, scheme_tf = "prop") %>%
+    topfeatures %>% names %>% paste(collapse = " ")
+}
+rm(dfm_article)
+rm(i)
+rm(custom_stopwords)
+# Example of keywords of articles
+data$keywords[1:5]
+```
+```{r free resources, include = FALSE}
+spacy_finalize()
+```
+
+The **TF-IDF** process has come up with the keywords of each article, which could be used to classify them and add said words to the articles, so the reader is able to identify the topic of the article with a couple of words.
+
+# 4. Article classifier
+
+Since the articles are not classified, and trying to generate the topic of the article is not possible since we do not have the articles classified to train the model, we will write down the code for a *Naive Bayes model* in case this data set articles are classified in the future, allowing the training and testing of the model.
+
+```{r naive bayes model}
+# Sample order to choose training and testing articles
+index_train <- sample(ndoc(dfm_text_cln), 0.75*ndoc(dfm_text_cln))
+
+# Training and Testing dataset
+dfm_train <- dfm_subset(dfm_text_cln,  id %in% index_train)
+dfm_test <- dfm_subset(dfm_text_cln, !id %in% index_train)
+
+# Train model
+nb_model <- textmodel_nb(dfm_training, dfm_training$category, distribution = "multinomial")
+summary(nb_model)
+
+# Get test results
+dfm_predicted <- predict(nb_model, newdata = dfm_test)
+
+# Confusion matrix
+confM <- confusionMatrix(dfm_predicted, docvars(dfm_test)$category)
+
+coincidences <- sum(as.character(dfm_predicted) == as.character(docvars(dfm_test)$category))
+# Accuracy, precision and recall of prediction
+acc <- coincidences / length(as.character(dfm_predicted))
+acc
+
+pre <- confM$byClass['Pos Pred Value']
+pre
+rec <- confM$byClass['Sensitivity']
+rec
+list(acc = acc, p = pre, r= rec)
+```
+
+# 5. Results and Conclusions
+
+Through the use of **T**erm **F**requency and **I**nverse **D**ocument **F**requency, we have been able to get a list of the keywords of each article, that could be included on it, giving the reader a brief description of the contents of the articles.
+
+If we were able to get the articles classified, or at least a small portion of them, big enough to train and test the model, we would be able to prove if a *Naive Bayes* model is capable of classifying the articles based on their content, but since we lack this article classification, this is not currently possible. 
